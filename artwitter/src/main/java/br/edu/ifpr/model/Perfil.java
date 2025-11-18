@@ -4,34 +4,21 @@ import java.util.List;
 
 public class Perfil {
 
-    private int id;
     private Usuario usuarioPerfil;
     private String descricao;
     private String foto;
-    private List<Perfil> seguidores;
-    private List<Perfil> seguindo;
+    private List<Perfil> seguidores;// se usuario 2 segue usuario 1, entao usuario 2 esta na lista de seguidores do usuario 1
     private List<Post> posts;
 
-    public Perfil(int id, Usuario usuarioPerfil, String descricao, String foto, List<Perfil> seguidores,
-            List<Perfil> seguindo, List<Post> posts) {
-        this.id = id;
+    public Perfil(Usuario usuarioPerfil, String descricao, String foto, List<Perfil> seguidores, List<Post> posts) {
         this.usuarioPerfil = usuarioPerfil;
         this.descricao = descricao;
         this.foto = foto;
         this.seguidores = seguidores;
-        this.seguindo = seguindo;
         this.posts = posts;
     }
 
     public Perfil() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public Usuario getUsuarioPerfil() {
@@ -64,14 +51,6 @@ public class Perfil {
 
     public void setSeguidores(List<Perfil> seguidores) {
         this.seguidores = seguidores;
-    }
-
-    public List<Perfil> getSeguindo() {
-        return seguindo;
-    }
-
-    public void setSeguindo(List<Perfil> seguindo) {
-        this.seguindo = seguindo;
     }
 
     public List<Post> getPosts() {
