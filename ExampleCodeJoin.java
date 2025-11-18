@@ -1,3 +1,6 @@
+
+import java.sql.Connection;
+
 //JOIN exemplo:
 
 //JOIN entre tabelas    
