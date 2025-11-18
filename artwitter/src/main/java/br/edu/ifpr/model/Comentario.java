@@ -2,28 +2,11 @@ package br.edu.ifpr.model;
 
 public class Comentario {
 
-    
+    private int id;
     private String text;
-
-    public Comentario() {
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
     private Post post;
+    private Usuario usuarioComentario;
 
-    public Post getPost() {
-        return post;
-    }
 
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
+    
 }

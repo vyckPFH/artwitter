@@ -1,8 +1,14 @@
 package br.edu.ifpr.model;
 
+import java.util.List;
+
 public class Post {
-    private String imagem;
+
+    private int id;
+    private String imagemURL;
     private String descricao;
     private int likes;
-    private Comentario comentario;
+    private List<Comentario> comentario;
+    private Usuario owner;
+
 }
