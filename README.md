@@ -3,66 +3,126 @@ https://prod.liveshare.vsengsaas.visualstudio.com/join?C70166EA882DC70941D01D4C8
 Link documento
 https://docs.google.com/document/d/1so7kuPEv5khzN2Ed-kbaJltDUe46RjPzqPxtrhS8jNI/edit?usp=sharing
 
+Script SQL
 
-package br.edu.ifpr.model;
+-- MySQL Workbench Forward Engineering
 
-public class Comentario {
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
-    private int id;
-    private String text;
-    private Post post;
-    private Usuario usuarioComentario;
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE DATABASE IF NOT EXISTS artwitterBD;
+USE artwitterBD;
+-- -----------------------------------------------------
+-- Table `Usuario`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Usuario` ;
 
-    
-}
-
-package br.edu.ifpr.model;
-
-import java.util.List;
-
-public class Perfil { 
-
-    private int id;
-    private Usuario usuarioPerfil;
-    private String descricao;
-    private String foto;
-    private List<Perfil> seguidores; 
-    private List<Perfil> seguindo; 
-    private List<Post> posts;
-
-}
+CREATE TABLE IF NOT EXISTS `Usuario` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `senha` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `nome_UNIQUE` (`nome` ASC) VISIBLE);
 
 
-package br.edu.ifpr.model;
+-- -----------------------------------------------------
+-- Table `Perfil`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Perfil` ;
 
-import java.util.List;
-
-public class Post {
-
-    private int id;
-    private String imagemURL;
-    private String descricao;
-    private int likes;
-    private List<Comentario> comentario;
-    private Usuario owner;
-    
-    
-   
-}
+CREATE TABLE IF NOT EXISTS `Perfil` (
+  `Usuario_id` INT NOT NULL,
+  `descricao` TEXT(500) NULL,
+  `foto` VARCHAR(255) NULL,
+  INDEX `fk_Perfil_Usuario_idx` (`Usuario_id` ASC) VISIBLE,
+  PRIMARY KEY (`Usuario_id`),
+  CONSTRAINT `fk_Perfil_Usuario`
+    FOREIGN KEY (`Usuario_id`)
+    REFERENCES `Usuario` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `Post`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Post` ;
 
-package br.edu.ifpr.model;
+CREATE TABLE IF NOT EXISTS `Post` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `imagemURL` VARCHAR(255) NOT NULL,
+  `descricao` TEXT(500) NULL,
+  `likes` INT NULL,
+  `Perfil_Usuario_id1` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `idPost_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_Post_Perfil1_idx` (`Perfil_Usuario_id1` ASC) VISIBLE,
+  CONSTRAINT `fk_Post_Perfil1`
+    FOREIGN KEY (`Perfil_Usuario_id1`)
+    REFERENCES `Perfil` (`Usuario_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-import java.util.List;
 
-public class Usuario {
+-- -----------------------------------------------------
+-- Table `Comentario`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Comentario` ;
 
-    private int id;
-    private String nome;
-    private String email;
-    private String senha;
-    private List<Post> feed;    
+CREATE TABLE IF NOT EXISTS `Comentario` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `texto` TEXT(500) NOT NULL,
+  `Perfil_Usuario_id` INT NOT NULL,
+  `Post_idPost` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `idComentario_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_Comentario_Perfil1_idx` (`Perfil_Usuario_id` ASC) VISIBLE,
+  INDEX `fk_Comentario_Post1_idx` (`Post_idPost` ASC) VISIBLE,
+  CONSTRAINT `fk_Comentario_Perfil1`
+    FOREIGN KEY (`Perfil_Usuario_id`)
+    REFERENCES `Perfil` (`Usuario_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Comentario_Post1`
+    FOREIGN KEY (`Post_idPost`)
+    REFERENCES `Post` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-    
-}
+
+-- -----------------------------------------------------
+-- Table `listSeguid`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `listSeguid` ;
+
+CREATE TABLE IF NOT EXISTS `listSeguid` (
+  `Perfil_Usuario_id` INT NOT NULL,
+  `Perfil_Usuario_id1` INT NOT NULL,
+  PRIMARY KEY (`Perfil_Usuario_id`, `Perfil_Usuario_id1`),
+  INDEX `fk_Perfil_has_Perfil_Perfil2_idx` (`Perfil_Usuario_id1` ASC) VISIBLE,
+  INDEX `fk_Perfil_has_Perfil_Perfil1_idx` (`Perfil_Usuario_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Perfil_has_Perfil_Perfil1`
+    FOREIGN KEY (`Perfil_Usuario_id`)
+    REFERENCES `Perfil` (`Usuario_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Perfil_has_Perfil_Perfil2`
+    FOREIGN KEY (`Perfil_Usuario_id1`)
+    REFERENCES `Perfil` (`Usuario_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
