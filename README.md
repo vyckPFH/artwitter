@@ -100,11 +100,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `listSeguido`
+-- Table `ListSeguido`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `listSeguid` ;
+DROP TABLE IF EXISTS `ListSeguido` ;
 
-CREATE TABLE IF NOT EXISTS `listSeguid` (
+CREATE TABLE IF NOT EXISTS `ListSeguido` (
   `Perfil_Usuario_id` INT NOT NULL,
   `Perfil_Usuario_id1` INT NOT NULL,
   PRIMARY KEY (`Perfil_Usuario_id`, `Perfil_Usuario_id1`),
