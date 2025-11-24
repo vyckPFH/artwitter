@@ -100,7 +100,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `listSeguid`
+-- Table `listSeguido`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `listSeguid` ;
 
