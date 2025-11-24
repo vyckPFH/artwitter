@@ -1,4 +1,4 @@
-package br.edu.ifpr.model;
+package br.edu.ifpr.model.utils;
 
 public class Comentario {
 
