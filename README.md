@@ -17,11 +17,11 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 CREATE DATABASE IF NOT EXISTS artwitterBD;
 USE artwitterBD;
 -- -----------------------------------------------------
--- Table `Usuario`
+-- Table `usuario`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Usuario` ;
+DROP TABLE IF EXISTS `usuario` ;
 
-CREATE TABLE IF NOT EXISTS `Usuario` (
+CREATE TABLE IF NOT EXISTS `usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
@@ -32,92 +32,92 @@ CREATE TABLE IF NOT EXISTS `Usuario` (
 
 
 -- -----------------------------------------------------
--- Table `Perfil`
+-- Table `perfil`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Perfil` ;
+DROP TABLE IF EXISTS `perfil` ;
 
-CREATE TABLE IF NOT EXISTS `Perfil` (
-  `Usuario_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `perfil` (
+  `usuario_id` INT NOT NULL,
   `descricao` TEXT(500) NULL,
   `foto` VARCHAR(255) NULL,
-  INDEX `fk_Perfil_Usuario_idx` (`Usuario_id` ASC) VISIBLE,
-  PRIMARY KEY (`Usuario_id`),
-  CONSTRAINT `fk_Perfil_Usuario`
-    FOREIGN KEY (`Usuario_id`)
-    REFERENCES `Usuario` (`id`)
+  INDEX `fk_perfil_usuario_idx` (`usuario_id` ASC) VISIBLE,
+  PRIMARY KEY (`usuario_id`),
+  CONSTRAINT `fk_perfil_usuario`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `usuario` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Post`
+-- Table `post`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Post` ;
+DROP TABLE IF EXISTS `post` ;
 
-CREATE TABLE IF NOT EXISTS `Post` (
+CREATE TABLE IF NOT EXISTS `post` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `imagemURL` VARCHAR(255) NOT NULL,
   `descricao` TEXT(500) NULL,
   `likes` INT NULL,
-  `Perfil_Usuario_id1` INT NOT NULL,
+  `perfil_usuario_id1` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `idPost_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_Post_Perfil1_idx` (`Perfil_Usuario_id1` ASC) VISIBLE,
-  CONSTRAINT `fk_Post_Perfil1`
-    FOREIGN KEY (`Perfil_Usuario_id1`)
-    REFERENCES `Perfil` (`Usuario_id`)
+  INDEX `fk_post_perfil1_idx` (`perfil_usuario_id1` ASC) VISIBLE,
+  CONSTRAINT `fk_post_perfil1`
+    FOREIGN KEY (`perfil_usuario_id1`)
+    REFERENCES `perfil` (`usuario_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Comentario`
+-- Table `comentario`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `Comentario` ;
+DROP TABLE IF EXISTS `comentario` ;
 
-CREATE TABLE IF NOT EXISTS `Comentario` (
+CREATE TABLE IF NOT EXISTS `comentario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `texto` TEXT(500) NOT NULL,
-  `Perfil_Usuario_id` INT NOT NULL,
-  `Post_idPost` INT NOT NULL,
+  `perfil_usuario_id` INT NOT NULL,
+  `post_idPost` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `idComentario_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_Comentario_Perfil1_idx` (`Perfil_Usuario_id` ASC) VISIBLE,
-  INDEX `fk_Comentario_Post1_idx` (`Post_idPost` ASC) VISIBLE,
-  CONSTRAINT `fk_Comentario_Perfil1`
-    FOREIGN KEY (`Perfil_Usuario_id`)
-    REFERENCES `Perfil` (`Usuario_id`)
+  INDEX `fk_comentario_perfil1_idx` (`perfil_usuario_id` ASC) VISIBLE,
+  INDEX `fk_comentario_post1_idx` (`post_idPost` ASC) VISIBLE,
+  CONSTRAINT `fk_comentario_perfil1`
+    FOREIGN KEY (`perfil_usuario_id`)
+    REFERENCES `perfil` (`usuario_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Comentario_Post1`
-    FOREIGN KEY (`Post_idPost`)
-    REFERENCES `Post` (`id`)
+  CONSTRAINT `fk_comentario_post1`
+    FOREIGN KEY (`post_idPost`)
+    REFERENCES `post` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ListSeguido`
+-- Table `listSeguido`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ListSeguido` ;
+DROP TABLE IF EXISTS `listSeguido` ;
 
-CREATE TABLE IF NOT EXISTS `ListSeguido` (
-  `Perfil_Usuario_id` INT NOT NULL,
-  `Perfil_Usuario_id1` INT NOT NULL,
-  PRIMARY KEY (`Perfil_Usuario_id`, `Perfil_Usuario_id1`),
-  INDEX `fk_Perfil_has_Perfil_Perfil2_idx` (`Perfil_Usuario_id1` ASC) VISIBLE,
-  INDEX `fk_Perfil_has_Perfil_Perfil1_idx` (`Perfil_Usuario_id` ASC) VISIBLE,
-  CONSTRAINT `fk_Perfil_has_Perfil_Perfil1`
-    FOREIGN KEY (`Perfil_Usuario_id`)
-    REFERENCES `Perfil` (`Usuario_id`)
+CREATE TABLE IF NOT EXISTS `listSeguido` (
+  `perfil_usuario_id` INT NOT NULL,
+  `perfil_usuario_id1` INT NOT NULL,
+  PRIMARY KEY (`perfil_usuario_id`, `perfil_usuario_id1`),
+  INDEX `fk_perfil_has_perfil_perfil2_idx` (`perfil_usuario_id1` ASC) VISIBLE,
+  INDEX `fk_perfil_has_perfil_perfil1_idx` (`perfil_usuario_id` ASC) VISIBLE,
+  CONSTRAINT `fk_perfil_has_perfil_perfil1`
+    FOREIGN KEY (`perfil_usuario_id`)
+    REFERENCES `perfil` (`usuario_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Perfil_has_Perfil_Perfil2`
-    FOREIGN KEY (`Perfil_Usuario_id1`)
-    REFERENCES `Perfil` (`Usuario_id`)
+  CONSTRAINT `fk_perfil_has_perfil_perfil2`
+    FOREIGN KEY (`perfil_usuario_id1`)
+    REFERENCES `perfil` (`usuario_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
