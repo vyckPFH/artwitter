@@ -12,6 +12,7 @@ import br.edu.ifpr.model.utils.Usuario;
 public class UsuarioDAO {
 
     public void insert(Usuario usuario){
+        
         Connection con = ConnectionFactory.getConnection();
 
         String sql = ("INSERT INTO Usuario(nome,email,senha) VALUES(?,?,?);");
