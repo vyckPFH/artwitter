@@ -1,5 +1,5 @@
 package br.edu.ifpr.model.dao;
 
-public class exemplo {
+public class PostDAO {
     
 }
