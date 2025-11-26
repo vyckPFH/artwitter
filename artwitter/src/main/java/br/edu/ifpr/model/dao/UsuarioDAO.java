@@ -15,7 +15,7 @@ public class UsuarioDAO {
         
         Connection con = ConnectionFactory.getConnection();
 
-        String sql = ("INSERT INTO Usuario(nome,email,senha) VALUES(?,?,?);");
+        String sql = ("INSERT INTO usuario (nome,email,senha) VALUES(?,?,?);");
         
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -40,7 +40,7 @@ public class UsuarioDAO {
 
         try{
 
-            String sql = "SELECT * FROM Usuario";
+            String sql = "SELECT * FROM usuario";
             PreparedStatement ps = con.prepareStatement(sql);
             
             ResultSet rs = ps.executeQuery();

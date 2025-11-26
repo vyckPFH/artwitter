@@ -6,7 +6,7 @@ import br.edu.ifpr.model.utils.Comentario;
 public class ComentarioController {
     private ComentarioDAO dao;
 
-    public ComentarioController(ComentarioDAO dao) {
+    public ComentarioController() {
         this.dao = dao;
     }
 
