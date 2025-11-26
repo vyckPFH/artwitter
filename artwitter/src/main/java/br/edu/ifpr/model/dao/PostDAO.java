@@ -2,7 +2,9 @@ package br.edu.ifpr.model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import br.edu.ifpr.model.utils.Post;
 
@@ -34,5 +36,33 @@ public class PostDAO {
             
         }
    
+         public ArrayList<Post> select(){
+
+        Connection con = ConnectionFactory.getConnection();
+
+        ArrayList<Post> posts = new ArrayList<>();
+
+        try{
+
+            String sql = "SELECT * FROM post";
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Post post = new Post();
+
+                
+                post.setId(rs.getInt("id"));
+                post.setComentario(
+               
+                
+                usuarios.add(usuario);
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
 
 }
