@@ -10,6 +10,7 @@ public class ComentarioController {
         this.dao = dao;
     }
 
+
     public void comentar(Comentario comentario){
         if (comentario.getText() == null || comentario.getText().isEmpty()) {
             System.out.println("Comentario não pode ser nulo/vazio");

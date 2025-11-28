@@ -11,6 +11,34 @@ import br.edu.ifpr.model.utils.Usuario;
 
 public class UsuarioDAO {
 
+    public Usuario selectById(int id) {
+
+    Connection con = ConnectionFactory.getConnection();
+    Usuario usuario = null;
+
+    try {
+
+        String sql = "SELECT * FROM usuario WHERE id = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, id);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            usuario = new Usuario();
+            usuario.setId(rs.getInt("id"));
+            usuario.setNome(rs.getString("nome"));
+            usuario.setEmail(rs.getString("email"));
+            usuario.setSenha(rs.getString("senha"));
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return usuario;
+}
+
     public void insert(Usuario usuario){
         
         Connection con = ConnectionFactory.getConnection();

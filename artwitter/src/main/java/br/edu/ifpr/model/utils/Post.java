@@ -8,15 +8,15 @@ public class Post {
     private String imagemURL;
     private String descricao;
     private int likes;
-    private List<Comentario> comentario;
+    private List<Comentario> comentarios;
     private Usuario owner;
 
-    public Post(int id, String imagemURL, String descricao, int likes, List<Comentario> comentario, Usuario owner) {
+    public Post(int id, String imagemURL, String descricao, int likes, List<Comentario> comentarios, Usuario owner) {
         this.id = id;
         this.imagemURL = imagemURL;
         this.descricao = descricao;
         this.likes = likes;
-        this.comentario = comentario;
+        this.comentarios = comentarios;
         this.owner = owner;
     }
 
@@ -55,12 +55,12 @@ public class Post {
         this.likes = likes;
     }
 
-    public List<Comentario> getComentario() {
-        return comentario;
+    public List<Comentario> getComentarios() {
+        return comentarios;
     }
 
-    public void setComentario(List<Comentario> comentario) {
-        this.comentario = comentario;
+    public void setComentarios(List<Comentario> comentario) {
+        this.comentarios = comentario;
     }
 
     public Usuario getOwner() {

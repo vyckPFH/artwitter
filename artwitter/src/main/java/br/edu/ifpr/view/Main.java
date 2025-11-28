@@ -45,9 +45,9 @@ public class Main {
         post.setImagemURL("imagem.jpg");
         post.setLikes(10);
         Comentario comentario = new Comentario();
-        comentario.setPost(post);
+        comentario.setIdPost(post.getId());
         comentario.setText("text");
-        comentario.setUsuarioComentario(usuarios.getFirst());
+        comentario.setIdUsuario(1);
         post.getComentario().add(comentario);
         postController.postar(post);
         

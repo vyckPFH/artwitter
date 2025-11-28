@@ -4,51 +4,46 @@ public class Comentario {
 
     private int id;
     private String text;
-    private Post post;
-    private Usuario usuarioComentario;
+    private int idPost;
+    private int idUsuario;
 
-    public Comentario(int id, String text, Post post, Usuario usuarioComentario) {
-        this.id = id;
+
+
+    
+    public Comentario(String text, int idPost, int idUsuario) {
         this.text = text;
-        this.post = post;
-        this.usuarioComentario = usuarioComentario;
+        this.idPost = idPost;
+        this.idUsuario = idUsuario;
     }
 
     public Comentario() {
     }
-
-
-
+    
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public String getText() {
         return text;
     }
-
     public void setText(String text) {
         this.text = text;
     }
-
-    public Post getPost() {
-        return post;
+    public int getIdPost() {
+        return idPost;
+    }
+    public void setIdPost(int idPost) {
+        this.idPost = idPost;
+    }
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public Usuario getUsuarioComentario() {
-        return usuarioComentario;
-    }
-
-    public void setUsuarioComentario(Usuario usuarioComentario) {
-        this.usuarioComentario = usuarioComentario;
-    }
+    
     
 }

@@ -7,37 +7,63 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import br.edu.ifpr.model.utils.Comentario;
-import br.edu.ifpr.model.utils.Usuario;
 
 public class ComentarioDAO {
 
-    public ArrayList<> select(Comentario comentario){
-          Connection con = ConnectionFactory.getConnection();
+    // public ArrayList<Comentario> selectComentariosDoPost(Comentario comentario){
+    //     Connection con = ConnectionFactory.getConnection();
+
+    //     ArrayList<Comentario> comentarios = new ArrayList<>();
+
+    //     try{
+
+    //         String sql = "SELECT post.descricao AS nomePost, comentario.texto as comentario, comentario.perfil_usuario_id as usuarioQueComentou FROM post join comentario on comentario.post_idPost = post.id where post.id = ?;";
+    //         PreparedStatement ps = con.prepareStatement(sql);
+            
+    //         ResultSet rs = ps.executeQuery();
+
+    //         while (rs.next()) {
+
+    //             comentario.setId(rs.getInt("id"));
+    //             comentario.setText(rs.getString("texto"));
+    //             comentario.setIdUsuario(rs.getInt("perfil_usuario_id"));
+    //             comentario.setIdPost(rs.getInt("post_idPost"));
+
+
+    //             comentarios.add(comentario);
+    //         }
+    //     } catch(SQLException e){
+    //         e.printStackTrace();
+    //     }
+    //     return comentarios;
+    // }
+
+    public ArrayList<Comentario> select(Comentario comentario){
+        Connection con = ConnectionFactory.getConnection();
 
         ArrayList<Comentario> comentarios = new ArrayList<>();
 
         try{
 
-            String sql = "SELECT post.descricao AS nomePost, comentario.texto as comentario, comentario.perfil_usuario_id as usuarioQueComentou FROM post join comentario on comentario.post_idPost = post.id;";
+            String sql = "SELECT post.descricao, comentario.texto, comentario.perfil_usuario_id FROM post join comentario on comentario.post_idPost = post.id;";
             PreparedStatement ps = con.prepareStatement(sql);
             
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Usuario usuario = new Usuario();
 
-                usuario.setId(rs.getInt("id"));
-                usuario.setNome(rs.getString("nome"));
-                usuario.setEmail(rs.getString("email"));
-                usuario.setSenha(rs.getString("senha"));
-               
-                
-                usuarios.add(usuario);
+                comentario.setId(rs.getInt("id"));
+                comentario.setText(rs.getString("texto"));
+                comentario.setIdUsuario(rs.getInt("perfil_usuario_id"));
+                comentario.setIdPost(rs.getInt("post_idPost"));
+                ps.setInt(3, comentario.getIdPost());
+
+                comentarios.add(comentario);
             }
         } catch(SQLException e){
             e.printStackTrace();
         }
-        return usuarios;
+        return comentarios;
     }
 
     public void insert(Comentario comentario) {
@@ -51,8 +77,8 @@ public class ComentarioDAO {
             PreparedStatement ps = con.prepareStatement(sql);
 
             ps.setString(1, comentario.getText());
-            ps.setInt(2, comentario.getUsuarioComentario().getId());
-            ps.setInt(3, comentario.getPost().getId());
+            ps.setInt(2, comentario.getIdUsuario());
+            ps.setInt(3, comentario.getIdPost());
 
             ps.executeUpdate();
             System.out.println("Post inserido cm sucesso");
