@@ -1,0 +1,59 @@
+USE artwitterBD;
+
+-- =============== TABELA USUARIO ===============
+
+INSERT INTO usuario (nome, email, senha) VALUES
+('alice', 'alice@example.com', 'senha123'),
+('bruno', 'bruno@example.com', 'senha123'),
+('carla', 'carla@example.com', 'senha123'),
+('diego', 'diego@example.com', 'senha123'),
+('erika', 'erika@example.com', 'senha123');
+
+-- IDs gerados: 1,2,3,4,5
+
+-- =============== TABELA PERFIL ===============
+
+INSERT INTO perfil (usuario_id, descricao, foto) VALUES
+(1, 'Amante de tecnologia e fotografia.', 'foto1.jpg'),
+(2, 'Café, código e música.', 'foto2.jpg'),
+(3, 'Artista digital e ilustradora.', 'foto3.jpg'),
+(4, 'Aventureiro e ciclista.', 'foto4.jpg'),
+(5, 'Gosta de livros e gatos.', 'foto5.jpg');
+
+-- =============== TABELA POST ===============
+
+INSERT INTO post (imagemURL, descricao, likes, perfil_usuario_id) VALUES
+('img1.jpg', 'Primeiro post da Alice!', 10, 1),
+('img2.jpg', 'Café da manhã top!', 5, 2),
+('img3.jpg', 'Nova arte finalizada!', 25, 3),
+('img4.jpg', 'Passeio de bike hoje.', 7, 4),
+('img5.jpg', 'Meu gato dormindo.', 12, 5),
+('img6.jpg', 'Mais um desenho concluído!', 30, 3),
+('img7.jpg', 'Vista linda da montanha!', 9, 4);
+
+-- IDs gerados: 1..7
+
+-- =============== TABELA COMENTARIO ===============
+
+INSERT INTO comentario (texto, perfil_usuario_id, post_idPost) VALUES
+('Muito legal!', 2, 1),
+('Adorei!', 3, 1),
+('Esse café parece ótimo!', 1, 2),
+('Sua arte é incrível!', 5, 3),
+('Boa pedalada!', 3, 4),
+('Que fofo!', 4, 5),
+('Impressionante!', 1, 6),
+('Lindo lugar!', 2, 7);
+
+-- =============== TABELA listSeguido ===============
+
+INSERT INTO listSeguido (seguidor_id, seguido_id) VALUES
+(1, 2),
+(1, 3),
+(2, 1),
+(2, 3),
+(3, 5),
+(4, 1),
+(4, 3),
+(5, 4),
+(5, 1);
