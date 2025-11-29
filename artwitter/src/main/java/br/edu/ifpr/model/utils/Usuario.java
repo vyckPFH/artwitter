@@ -1,25 +1,19 @@
 package br.edu.ifpr.model.utils;
 
-import java.util.List;
-
 public class Usuario {
 
     private int id;
     private String nome;
     private String email;
     private String senha;
-    private List<Post> feed;
 
-    public Usuario(int id, String nome, String email, String senha, List<Post> feed) {
-        this.id = id;
+    public Usuario(String nome, String email, String senha) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.feed = feed;
     }
 
-    public Usuario() {
-    }
+    public Usuario() {}
 
     public int getId() {
         return id;
@@ -51,14 +45,6 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public List<Post> getFeed() {
-        return feed;
-    }
-
-    public void setFeed(List<Post> feed) {
-        this.feed = feed;
     }
 
 }

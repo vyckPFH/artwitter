@@ -1,26 +1,27 @@
 package br.edu.ifpr.model.utils;
 
-import java.util.List;
-
 public class Post {
 
     private int id;
     private String imagemURL;
     private String descricao;
-    private int likes;
-    private List<Comentario> comentarios;
-    private Usuario owner;
+    private int likes = 0;
+    private int usuarioId; // veio de perfil_usuario_id
 
-    public Post(int id, String imagemURL, String descricao, int likes, List<Comentario> comentarios, Usuario owner) {
-        this.id = id;
+    public Post() {}
+
+    public Post(String imagemURL, String descricao, int usuarioId) {
         this.imagemURL = imagemURL;
         this.descricao = descricao;
-        this.likes = likes;
-        this.comentarios = comentarios;
-        this.owner = owner;
+        this.usuarioId = usuarioId;
     }
 
-    public Post() {
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public int getId() {
@@ -53,22 +54,6 @@ public class Post {
 
     public void setLikes(int likes) {
         this.likes = likes;
-    }
-
-    public List<Comentario> getComentarios() {
-        return comentarios;
-    }
-
-    public void setComentarios(List<Comentario> comentario) {
-        this.comentarios = comentario;
-    }
-
-    public Usuario getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Usuario owner) {
-        this.owner = owner;
     }
 
 }

@@ -8,64 +8,53 @@ import java.util.ArrayList;
 
 import br.edu.ifpr.model.utils.Comentario;
 
+/**
+ * Classe responsável por realizar operações de CRUD
+ * relacionadas à entidade {@link Comentario} no banco de dados.
+ */
 public class ComentarioDAO {
 
-    // public ArrayList<Comentario> selectComentariosDoPost(Comentario comentario){
-    //     Connection con = ConnectionFactory.getConnection();
+    /**
+     * Retorna todos os comentários cadastrados no banco de dados.
+     *
+     * @return lista com todos os comentários
+     */
+    public ArrayList<Comentario> select() {
 
-    //     ArrayList<Comentario> comentarios = new ArrayList<>();
-
-    //     try{
-
-    //         String sql = "SELECT post.descricao AS nomePost, comentario.texto as comentario, comentario.perfil_usuario_id as usuarioQueComentou FROM post join comentario on comentario.post_idPost = post.id where post.id = ?;";
-    //         PreparedStatement ps = con.prepareStatement(sql);
-            
-    //         ResultSet rs = ps.executeQuery();
-
-    //         while (rs.next()) {
-
-    //             comentario.setId(rs.getInt("id"));
-    //             comentario.setText(rs.getString("texto"));
-    //             comentario.setIdUsuario(rs.getInt("perfil_usuario_id"));
-    //             comentario.setIdPost(rs.getInt("post_idPost"));
-
-
-    //             comentarios.add(comentario);
-    //         }
-    //     } catch(SQLException e){
-    //         e.printStackTrace();
-    //     }
-    //     return comentarios;
-    // }
-
-    public ArrayList<Comentario> select(Comentario comentario){
         Connection con = ConnectionFactory.getConnection();
-
         ArrayList<Comentario> comentarios = new ArrayList<>();
 
-        try{
+        try {
 
-            String sql = "SELECT post.descricao, comentario.texto, comentario.perfil_usuario_id FROM post join comentario on comentario.post_idPost = post.id;";
+            String sql = "SELECT * FROM comentario";
             PreparedStatement ps = con.prepareStatement(sql);
-            
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
 
-                comentario.setId(rs.getInt("id"));
-                comentario.setText(rs.getString("texto"));
-                comentario.setIdUsuario(rs.getInt("perfil_usuario_id"));
-                comentario.setIdPost(rs.getInt("post_idPost"));
-                ps.setInt(3, comentario.getIdPost());
+                Comentario c = new Comentario();
 
-                comentarios.add(comentario);
+                c.setId(rs.getInt("id"));
+                c.setTexto(rs.getString("texto"));
+                c.setIdUsuario(rs.getInt("perfil_usuario_id"));
+                c.setIdPost(rs.getInt("post_idPost"));
+
+                comentarios.add(c);
             }
-        } catch(SQLException e){
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return comentarios;
     }
 
+    /**
+     * Insere um novo comentário no banco de dados.
+     *
+     * @param comentario objeto contendo os dados do comentário a ser inserido
+     */
     public void insert(Comentario comentario) {
 
         Connection con = ConnectionFactory.getConnection();
@@ -76,16 +65,102 @@ public class ComentarioDAO {
 
             PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.setString(1, comentario.getText());
+            ps.setString(1, comentario.getTexto());
             ps.setInt(2, comentario.getIdUsuario());
             ps.setInt(3, comentario.getIdPost());
 
             ps.executeUpdate();
-            System.out.println("Post inserido cm sucesso");
+            System.out.println("Comentário inserido cm sucesso");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
+
+    /**
+     * Busca e retorna um comentário pelo seu ID.
+     *
+     * @param id identificador do comentário
+     * @return o comentário encontrado, ou null se não existir
+     */
+    public Comentario selectPorId(int id) {
+
+        Connection con = ConnectionFactory.getConnection();
+
+        try {
+            String sql = "SELECT * FROM comentario WHERE id = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Comentario c = new Comentario();
+
+                c.setId(rs.getInt("id"));
+                c.setTexto(rs.getString("texto"));
+                c.setIdUsuario(rs.getInt("perfil_usuario_id"));
+                c.setIdPost(rs.getInt("post_idPost"));
+
+                return c;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * Atualiza os dados de um comentário existente.
+     *
+     * @param comentario objeto contendo os novos dados do comentário
+     */
+    public void update(Comentario comentario) {
+
+        Connection con = ConnectionFactory.getConnection();
+
+        String sql = "UPDATE comentario SET texto = ?, perfil_usuario_id = ?, post_idPost = ? WHERE id = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, comentario.getTexto());
+            ps.setInt(2, comentario.getIdUsuario());
+            ps.setInt(3, comentario.getIdPost());
+            ps.setInt(4, comentario.getId());
+
+            ps.executeUpdate();
+            System.out.println("Comentário atualizado com sucesso");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Deleta um comentário do banco de dados pelo ID.
+     *
+     * @param id identificador do comentário a ser removido
+     */
+    public void delete(int id) {
+
+        Connection con = ConnectionFactory.getConnection();
+
+        String sql = "DELETE FROM comentario WHERE id = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+            System.out.println("Comentário deletado com sucesso");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

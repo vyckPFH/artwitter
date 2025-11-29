@@ -3,21 +3,17 @@ package br.edu.ifpr.model.utils;
 public class Comentario {
 
     private int id;
-    private String text;
+    private String texto;
     private int idPost;
     private int idUsuario;
-
-
-
     
-    public Comentario(String text, int idPost, int idUsuario) {
-        this.text = text;
+    public Comentario(String texto, int idPost, int idUsuario) {
+        this.texto = texto;
         this.idPost = idPost;
         this.idUsuario = idUsuario;
     }
 
-    public Comentario() {
-    }
+    public Comentario() {}
     
     public int getId() {
         return id;
@@ -25,11 +21,11 @@ public class Comentario {
     public void setId(int id) {
         this.id = id;
     }
-    public String getText() {
-        return text;
+    public String getTexto() {
+        return texto;
     }
-    public void setText(String text) {
-        this.text = text;
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
     public int getIdPost() {
         return idPost;

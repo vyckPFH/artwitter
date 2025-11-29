@@ -1,32 +1,25 @@
 package br.edu.ifpr.model.utils;
 
-import java.util.List;
-
 public class Perfil {
 
-    private Usuario usuarioPerfil;
+    private int usuarioId; // igual ao id do usuario
     private String descricao;
     private String foto;
-    private List<Perfil> seguidores;// se usuario 2 segue usuario 1, entao usuario 2 esta na lista de seguidores do usuario 1
-    private List<Post> posts;
 
-    public Perfil(Usuario usuarioPerfil, String descricao, String foto, List<Perfil> seguidores, List<Post> posts) {
-        this.usuarioPerfil = usuarioPerfil;
+    public Perfil() {}
+
+    public Perfil(int usuarioId, String descricao, String foto) {
+        this.usuarioId = usuarioId;
         this.descricao = descricao;
         this.foto = foto;
-        this.seguidores = seguidores;
-        this.posts = posts;
     }
 
-    public Perfil() {
+    public int getUsuarioId() {
+        return usuarioId;
     }
 
-    public Usuario getUsuarioPerfil() {
-        return usuarioPerfil;
-    }
-
-    public void setUsuarioPerfil(Usuario usuarioPerfil) {
-        this.usuarioPerfil = usuarioPerfil;
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public String getDescricao() {
@@ -43,22 +36,6 @@ public class Perfil {
 
     public void setFoto(String foto) {
         this.foto = foto;
-    }
-
-    public List<Perfil> getSeguidores() {
-        return seguidores;
-    }
-
-    public void setSeguidores(List<Perfil> seguidores) {
-        this.seguidores = seguidores;
-    }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
     }
 
 }
