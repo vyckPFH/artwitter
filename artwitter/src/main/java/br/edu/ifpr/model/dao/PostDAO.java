@@ -17,6 +17,7 @@ import br.edu.ifpr.model.utils.Post;
 public class PostDAO {
 
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private PerfilDAO perfilDAO = new PerfilDAO();
 
     /**
      * bota um novo post no banco de dados.
@@ -33,7 +34,7 @@ public class PostDAO {
             ps.setString(1, post.getImagemURL());
             ps.setString(2, post.getDescricao());
             ps.setInt(3, post.getLikes());
-            ps.setInt(4, post.getUsuarioId());
+            ps.setInt(4, post.getPostOwner().getPerfilOwner().getId());//*** */
     
             ps.executeUpdate();
             System.out.println("Post inserido cm sucesso");
@@ -47,7 +48,6 @@ public class PostDAO {
             e.printStackTrace();
         }
     }
-    
 
     /**
      * Retorna todes os posts cadastrados no banco de dados.
@@ -59,6 +59,7 @@ public class PostDAO {
         Connection con = ConnectionFactory.getConnection();
         ArrayList<Post> posts = new ArrayList<>();
 
+        
         try {
             String sql = "SELECT * FROM post";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -72,7 +73,7 @@ public class PostDAO {
                 post.setImagemURL(rs.getString("imagemURL"));
                 post.setDescricao(rs.getString("descricao"));
                 post.setLikes(rs.getInt("likes"));
-                post.setUsuarioId(rs.getInt("perfil_usuario_id"));
+                post.setPostOwner(perfilDAO.selectPorId(rs.getInt("perfil_usuario_id")));
 
                 posts.add(post);
             }
@@ -109,7 +110,7 @@ public class PostDAO {
                 post.setImagemURL(rs.getString("imagemURL"));
                 post.setDescricao(rs.getString("descricao"));
                 post.setLikes(rs.getInt("likes"));
-                post.setUsuarioId(rs.getInt("perfil_usuario_id"));
+                post.setPostOwner(perfilDAO.selectPorId(rs.getInt("perfil_usuario_id")));
             }
 
         } catch (SQLException e) {
@@ -142,7 +143,7 @@ public class PostDAO {
 
                 comentario.setId(rs.getInt("id"));
                 comentario.setTexto(rs.getString("texto"));
-                comentario.setIdUsuario(rs.getInt("perfil_usuario_id"));
+                comentario.setComentOwner(perfilDAO.selectPorId(rs.getInt("perfil_usuario_id")));
                 comentario.setIdPost(rs.getInt("post_idPost"));
 
                 comentarios.add(comentario);
@@ -171,7 +172,7 @@ public class PostDAO {
             ps.setString(1, post.getImagemURL());
             ps.setString(2, post.getDescricao());
             ps.setInt(3, post.getLikes());
-            ps.setInt(4, post.getUsuarioId());
+            ps.setInt(4, post.getPostOwner().getPerfilOwner().getId());//*********** */
             ps.setInt(5, post.getId());
 
             ps.executeUpdate();
@@ -185,16 +186,16 @@ public class PostDAO {
     /**
      * Deleta um post, obvio.
      *
-     * @param id identificador do post a ser removido
+     * @param post identificador do post a ser removido
      */
-    public void delete(int id) {
+    public void delete(Post post) {
 
         Connection con = ConnectionFactory.getConnection();
         String sql = "DELETE FROM post WHERE id = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setInt(1, post.getId());
             ps.executeUpdate();
 
             System.out.println("Post deletado cm sucesso");
@@ -207,16 +208,16 @@ public class PostDAO {
     /**
      * adiciona um like no post, dãã~
      *
-     * @param idPost identificador do post
+     * @param post identificador do post
      */
-    public void darLike(int idPost) {
+    public void darLike(Post post) {
 
         Connection con = ConnectionFactory.getConnection();
         String sql = "UPDATE post SET likes = likes + 1 WHERE id = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, idPost);
+            ps.setInt(1, post.getId());
             ps.executeUpdate();
 
             System.out.println("Like adicionado");
@@ -229,16 +230,16 @@ public class PostDAO {
     /**
      * remove um like no post, dã-
      *
-     * @param idPost identificador do post
+     * @param post identificador do post
      */
-    public void removerLike(int idPost) {
+    public void removerLike(Post post) {
 
         Connection con = ConnectionFactory.getConnection();
         String sql = "UPDATE post SET likes = likes - 1 WHERE id = ? AND likes > 0";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, idPost);
+            ps.setInt(1, post.getId());
             ps.executeUpdate();
 
             System.out.println("Like removido");
@@ -251,10 +252,10 @@ public class PostDAO {
     /**
      * Atualiza somente a descrição de um post.
      *
-     * @param id            identificador do post
+     * @param post            identificador do post
      * @param novaDescricao nova descrição a ser atribuída
      */
-    public void updateDescricao(int id, String novaDescricao) {
+    public void updateDescricao(Post post, String novaDescricao) {
 
         Connection con = ConnectionFactory.getConnection();
         String sql = "UPDATE post SET descricao = ? WHERE id = ?";
@@ -262,7 +263,7 @@ public class PostDAO {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, novaDescricao);
-            ps.setInt(2, id);
+            ps.setInt(2, post.getId());//*** */
 
             ps.executeUpdate();
             System.out.println("Descrição atualizada cm sucesso");
@@ -275,10 +276,10 @@ public class PostDAO {
     /**
      * Atualiza somente a imagem de um post.
      *
-     * @param id            identificador do post
+     * @param post            identificador do post
      * @param novaImagemURL URL da nova imagem
      */
-    public void updateImagem(int id, String novaImagemURL) {
+    public void updateImagem(Post post, String novaImagemURL) {
 
         Connection con = ConnectionFactory.getConnection();
         String sql = "UPDATE post SET imagemURL = ? WHERE id = ?";
@@ -286,7 +287,7 @@ public class PostDAO {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, novaImagemURL);
-            ps.setInt(2, id);
+            ps.setInt(2, post.getId());
 
             ps.executeUpdate();
             System.out.println("Imagem atualizada cm sucesso");

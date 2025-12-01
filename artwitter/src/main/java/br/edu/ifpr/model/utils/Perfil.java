@@ -2,35 +2,31 @@ package br.edu.ifpr.model.utils;
 
 public class Perfil {
 
-    private int usuarioId; // igual ao id do usuario
+    private Usuario perfilOwner;
     private String descricao;
     private String foto;
 
-    @Override
-    public String toString() {
-        return "Perfil { " +
-                "usuarioId=" + usuarioId +
-                ", descricao='" + descricao + '\'' +
-                ", fotoURL='" + foto + '\'' +
-                " }";
-    }
+    // @Override
+    // public String toString() {
+    //     return "Perfil { " +
+    //             "usuarioId=" + usuarioId +
+    //             ", descricao='" + descricao + '\'' +
+    //             ", fotoURL='" + foto + '\'' +
+    //             " }";
+    // }
 
-    public Perfil() {
-    }
-
-    public Perfil(int usuarioId, String descricao, String foto) {
-        this.usuarioId = usuarioId;
+    public Perfil(Usuario perfilOwner, String descricao, String foto) {
+        this.perfilOwner = perfilOwner;
         this.descricao = descricao;
         this.foto = foto;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+
+
+    public Perfil() {
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
-    }
+ 
 
     public String getDescricao() {
         return descricao;
@@ -47,5 +43,15 @@ public class Perfil {
     public void setFoto(String foto) {
         this.foto = foto;
     }
+
+    public Usuario getPerfilOwner() {
+        return perfilOwner;
+    }
+
+    public void setPerfilOwner(Usuario perfilOwner) {
+        this.perfilOwner = perfilOwner;
+    }
+
+   
 
 }

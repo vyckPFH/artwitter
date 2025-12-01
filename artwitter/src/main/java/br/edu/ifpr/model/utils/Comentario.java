@@ -5,22 +5,31 @@ public class Comentario {
     private int id;
     private String texto;
     private int idPost;
-    private int idUsuario;
+    private Perfil comentOwner;
 
-    @Override
-    public String toString() {
-        return "Comentario { " +
-                "id=" + id +
-                ", texto='" + texto + '\'' +
-                ", idPost=" + idPost +
-                ", usuarioId=" + idUsuario +
-                " }";
-    }
+    // @Override
+    // public String toString() {
+    //     return "Comentario { " +
+    //             "id=" + id +
+    //             ", texto='" + texto + '\'' +
+    //             ", idPost=" + idPost +
+    //             ", usuarioId=" + idUsuario +
+    //             " }";
+    // }
 
-    public Comentario(String texto, int idPost, int idUsuario) {
+   
+
+    public Comentario(int id, String texto, int idPost, Perfil comentOwner) {
+        this.id = id;
         this.texto = texto;
         this.idPost = idPost;
-        this.idUsuario = idUsuario;
+        this.comentOwner = comentOwner;
+    }
+
+    public Comentario(String texto, int idPost, Perfil comentOwner) {
+        this.texto = texto;
+        this.idPost = idPost;
+        this.comentOwner = comentOwner;
     }
 
     public Comentario() {
@@ -50,12 +59,16 @@ public class Comentario {
         this.idPost = idPost;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public Perfil getComentOwner() {
+        return comentOwner;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setComentOwner(Perfil comentOwner) {
+        this.comentOwner = comentOwner;
     }
+
+    
+
+    
 
 }

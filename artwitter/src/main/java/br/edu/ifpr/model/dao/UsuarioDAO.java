@@ -136,13 +136,13 @@ public class UsuarioDAO {
         }
 
     }
-
+    
     /**
      * deleta um usuario e tudo associado a ele pelo id
      * 
-     * @param id
+     * @param usuario
      */
-    public void delete(int id) {
+    public void usuario(Usuario usuario) {
 
         Connection con = ConnectionFactory.getConnection();
 
@@ -151,7 +151,7 @@ public class UsuarioDAO {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.setInt(1, id);
+            ps.setInt(1, usuario.getId());
 
             ps.executeUpdate();
 

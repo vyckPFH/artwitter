@@ -10,31 +10,13 @@ public class ConnectionFactory {
     private ConnectionFactory() {
     }
 
-    // public static Connection getConnection(){
-    // try {
-    // if(conexao==null){
-    // //jdbc:gdbd://ip do servidor do BD:porta/database
-    // String url = "jdbc:mysql://localhost:3306/artwitterBD";
-    // String user= "aluno";
-    // String password="aluno";
-    // conexao = DriverManager.getConnection(url, user, password);
-    // System.out.println("Conectado ao banco com sucesso!");
-    // }
-    // } catch (SQLException e) {
-
-    // e.printStackTrace();
-    // }
-    // return conexao;
-
-    // }
-
     public static Connection getConnection() {
         try {
             if (conexao == null) {
                 // jdbc:gdbd://ip do servidor do BD:porta/database
                 String url = "jdbc:mysql://localhost:3306/artwitterBD";
-                String user = "root";
-                String password = "vick";
+                String user = "aluno";
+                String password = "aluno";
                 conexao = DriverManager.getConnection(url, user, password);
                 System.out.println("Conectado ao banco com sucesso!");
             }
@@ -45,5 +27,23 @@ public class ConnectionFactory {
         return conexao;
 
     }
+
+    // public static Connection getConnection() {
+    // try {
+    // if (conexao == null) {
+    // // jdbc:gdbd://ip do servidor do BD:porta/database
+    // String url = "jdbc:mysql://localhost:3306/artwitterBD";
+    // String user = "root";
+    // String password = "vick";
+    // conexao = DriverManager.getConnection(url, user, password);
+    // System.out.println("Conectado ao banco com sucesso!");
+    // }
+    // } catch (SQLException e) {
+
+    // e.printStackTrace();
+    // }
+    // return conexao;
+
+    // }
 
 }

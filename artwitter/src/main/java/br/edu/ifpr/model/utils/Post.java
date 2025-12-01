@@ -6,36 +6,39 @@ public class Post {
     private String imagemURL;
     private String descricao;
     private int likes = 0;
-    private int usuarioId; // veio de perfil_usuario_id
+    private Perfil postOwner;
+    // @Override
+    // public String toString() {
+    //     return "Post { " +
+    //             "id=" + id +
+    //             ", imgURL='" + imagemURL + '\'' +
+    //             ", descricao='" + descricao + '\'' +
+    //             ", usuarioId=" + usuarioId +
+    //             ", likes=" + likes +
+    //             " }";
+    // }
 
-    @Override
-    public String toString() {
-        return "Post { " +
-                "id=" + id +
-                ", imgURL='" + imagemURL + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", usuarioId=" + usuarioId +
-                ", likes=" + likes +
-                " }";
+    public Post(int id, String imagemURL, String descricao, int likes, Perfil postOwner) {
+        this.id = id;
+        this.imagemURL = imagemURL;
+        this.descricao = descricao;
+        this.likes = likes;
+        this.postOwner = postOwner;
     }
+
+
+    public Post(String imagemURL, String descricao, int likes, Perfil postOwner) {
+        this.imagemURL = imagemURL;
+        this.descricao = descricao;
+        this.likes = likes;
+        this.postOwner = postOwner;
+    }
+
 
     public Post() {
     }
 
-    public Post(String imagemURL, String descricao, int usuarioId) {
-        this.imagemURL = imagemURL;
-        this.descricao = descricao;
-        this.usuarioId = usuarioId;
-    }
-
-    public int getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
+    
     public int getId() {
         return id;
     }
@@ -66,6 +69,14 @@ public class Post {
 
     public void setLikes(int likes) {
         this.likes = likes;
+    }
+
+    public Perfil getPostOwner() {
+        return postOwner;
+    }
+
+    public void setPostOwner(Perfil postOwner) {
+        this.postOwner = postOwner;
     }
 
 }

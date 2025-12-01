@@ -27,7 +27,7 @@ public class PerfilDAO {
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
     
-            ps.setInt(1, perfil.getUsuarioId());
+            ps.setInt(1, perfil.getUserPerfil());
             ps.setString(2, perfil.getDescricao());
             ps.setString(3, perfil.getFoto());
     
