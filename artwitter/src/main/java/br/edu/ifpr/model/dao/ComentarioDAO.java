@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import br.edu.ifpr.model.utils.Comentario;
+import br.edu.ifpr.model.utils.Post;
 
 /**
  * Classe responsável por realizar operações de CRUD
@@ -17,7 +18,7 @@ public class ComentarioDAO {
 
 
     
-    public ArrayList<Comentario> selectComentariosPorPost(int postId) {
+    public ArrayList<Comentario> selectComentariosPorPost(Post post) {
         ArrayList<Comentario> comentarios = new ArrayList<>();
     
         Connection con = ConnectionFactory.getConnection();
@@ -25,7 +26,7 @@ public class ComentarioDAO {
     
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, postId);
+            ps.setInt(1, post.getId());
     
             ResultSet rs = ps.executeQuery();
     

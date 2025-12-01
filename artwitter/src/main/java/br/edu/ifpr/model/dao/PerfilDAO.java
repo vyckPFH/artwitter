@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import br.edu.ifpr.model.utils.Perfil;
@@ -15,6 +14,8 @@ import br.edu.ifpr.model.utils.Perfil;
  */
 public class PerfilDAO {
 
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
+
     /**
      * Insere um novo perfil no banco de dados.
      *
@@ -23,27 +24,27 @@ public class PerfilDAO {
     public void insert(Perfil perfil) {
         Connection con = ConnectionFactory.getConnection();
         String sql = "INSERT INTO perfil (usuario_id, descricao, foto) VALUES (?, ?, ?)";
-    
+
         try {
-            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-    
-            ps.setInt(1, perfil.getUserPerfil());
+            // PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, perfil.getPerfilOwner().getId());
             ps.setString(2, perfil.getDescricao());
             ps.setString(3, perfil.getFoto());
-    
+
             ps.executeUpdate();
             System.out.println("Perfil inserido com sucesso!");
-    
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                perfil.setUsuarioId(rs.getInt(1)); // <-- salva ID
-            }
-    
+
+            // ResultSet rs = ps.getGeneratedKeys();
+            // if (rs.next()) {
+            // perfil.setUsuarioId(rs.getInt(1)); // <-- salva ID
+            // }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
 
     /**
      * Retorna todos os perfis cadastrados no banco de dados.
@@ -62,7 +63,7 @@ public class PerfilDAO {
 
             while (rs.next()) {
                 Perfil perfil = new Perfil();
-                perfil.setUsuarioId(rs.getInt("usuario_id"));
+                perfil.setPerfilOwner(usuarioDAO.selectPorId(rs.getInt("perfil_usuario_id")));
                 perfil.setDescricao(rs.getString("descricao"));
                 perfil.setFoto(rs.getString("foto"));
 
@@ -78,22 +79,22 @@ public class PerfilDAO {
     /**
      * Busca um perfil específico pelo ID do usuário.
      *
-     * @param usuarioId identificador do usuário
+     * @param perfilId identificador do usuário
      * @return o perfil correspondente ou {@code null} caso não exista
      */
-    public Perfil selectPorId(int usuarioId) {
+    public Perfil selectPorId(int perfilId) {
         Connection con = ConnectionFactory.getConnection();
 
         try {
             String sql = "SELECT * FROM perfil WHERE usuario_id = ?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, usuarioId);
+            ps.setInt(1, perfilId);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 Perfil perfil = new Perfil();
-                perfil.setUsuarioId(rs.getInt("usuario_id"));
+                perfil.setPerfilOwner(usuarioDAO.selectPorId(rs.getInt("perfil_usuario_id")));/******* */
                 perfil.setDescricao(rs.getString("descricao"));
                 perfil.setFoto(rs.getString("foto"));
 
@@ -119,7 +120,7 @@ public class PerfilDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, perfil.getDescricao());
             ps.setString(2, perfil.getFoto());
-            ps.setInt(3, perfil.getUsuarioId());
+            ps.setInt(3, perfil.getPerfilOwner().getId());
 
             ps.executeUpdate();
             System.out.println("Perfil atualizado cm sucesso");
@@ -131,15 +132,15 @@ public class PerfilDAO {
     /**
      * Remove um perfil do banco de dados pelo ID do usuário.
      *
-     * @param usuarioId identificador do usuário
+     * @param perfil identificador do usuário
      */
-    public void delete(int usuarioId) {
+    public void delete(Perfil perfil) {
         Connection con = ConnectionFactory.getConnection();
         String sql = "DELETE FROM perfil WHERE usuario_id = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, usuarioId);
+            ps.setInt(1, perfil.getPerfilOwner().getId());
 
             ps.executeUpdate();
             System.out.println("Perfil deletado com sucesso!");
@@ -151,17 +152,17 @@ public class PerfilDAO {
     /**
      * Atualiza apenas a descrição de um perfil existente.
      *
-     * @param usuarioId     identificador do usuário
+     * @param perfil     identificador do usuário
      * @param novaDescricao nova descrição a ser atribuída
      */
-    public void updateDescricao(int usuarioId, String novaDescricao) {
+    public void updateDescricao(Perfil perfil, String novaDescricao) {
         Connection con = ConnectionFactory.getConnection();
         String sql = "UPDATE perfil SET descricao = ? WHERE usuario_id = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, novaDescricao);
-            ps.setInt(2, usuarioId);
+            ps.setInt(2, perfil.getPerfilOwner().getId());
             ps.executeUpdate();
             System.out.println("Descrição atualizada cm sucesso");
         } catch (SQLException e) {
@@ -172,17 +173,17 @@ public class PerfilDAO {
     /**
      * Atualiza apenas a foto de um perfil existente.
      *
-     * @param usuarioId identificador do usuário
+     * @param perfil identificador do usuário
      * @param novaFoto  URL da nova foto a ser atribuída
      */
-    public void updateFoto(int usuarioId, String novaFoto) {
+    public void updateFoto(Perfil perfil, String novaFoto) {
         Connection con = ConnectionFactory.getConnection();
         String sql = "UPDATE perfil SET foto = ? WHERE usuario_id = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, novaFoto);
-            ps.setInt(2, usuarioId);
+            ps.setInt(2, perfil.getPerfilOwner().getId());
             ps.executeUpdate();
             System.out.println("Foto atualizada cm sucesso");
         } catch (SQLException e) {
