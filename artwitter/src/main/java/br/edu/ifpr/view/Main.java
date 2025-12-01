@@ -1,6 +1,7 @@
 package br.edu.ifpr.view;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import br.edu.ifpr.controller.ComentarioController;
 import br.edu.ifpr.controller.PerfilController;
@@ -12,6 +13,7 @@ import br.edu.ifpr.model.utils.Post;
 import br.edu.ifpr.model.utils.Usuario;
 
 public class Main {
+
     /*
      * Controlers baby
      */
@@ -27,10 +29,103 @@ public class Main {
     private static ArrayList<Perfil> perfils = new ArrayList<>();
     private static ArrayList<Comentario> comentarios = new ArrayList<>();
 
+    final static Scanner LER = new Scanner(System.in);
+
     public static void main(String[] args) {
         // printUsuarios();
         // printPerfils();
         testeGeralzao();
+
+        //Métodos e afins p/ MENU
+        int opc = 999;
+
+        while (opc != 0) {
+
+            System.out.println("•·•Opções de Tela•·•");
+            System.out.println("Press 1 - Cadastrar novo usuário");
+            System.out.println("Press 2 - Logar em conta");
+            System.out.println("Press 0 - Sair");
+
+            int jaca = LER.nextInt();
+
+            switch (jaca) {
+                case 1:
+                    //metodo cadastro e direcionamento para feed se sucesso
+
+                    break;
+                case 2:
+                    //metodo login e validação no BD e direcionamento para feed se sucesso
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Opção inválida");
+                    pularLinha();
+                    break;
+            }
+
+
+
+            // int eslha = LER.nextInt();
+            // switch (eslha) {
+            //     case 1:
+            //         System.out.println("•·•Menu - Opções do Usuário•·•");
+            //         System.out.println("Press 1 - Cadastrar novo usuário");
+            //         System.out.println("Press 2 - Alterar dados do usuário");
+            //         System.out.println("Press 3 - Buscar por usuário");
+            //         System.out.println("Press 4 - Deletar usuário existente");
+            //         //iniciar novo usuario aq
+            //         int irii = LER.nextInt();
+            //         switch (irii) {
+            //             case 1:
+            //                 //metodo insert
+            //                 break;
+            //             case 2:
+            //                 //metodo update 
+            //                 break;
+            //             case 3:
+            //                 //metodo select
+            //                 break;
+            //             case 4:
+            //                 //metodo delete 
+            //             default:
+            //                 break;
+            //         }
+            //         break;
+            //     default:
+            //         break;
+            // }
+        }
+
+    }
+
+//Método cadastro
+    public static void cadastrarUsuario(Usuario usuario){
+        Usuario us = new Usuario(null, null, null);
+
+        System.out.println("•·•Inicio de Cadastro•·•");
+
+        System.out.println("Nome:");
+        String nome = LER.next();
+        us.setNome(nome);
+
+        System.out.println("Email:");
+        String email = LER.next();
+        us.setEmail(email);
+
+        System.out.println("Senha:");
+        String senha = LER.next();
+
+        // System.out.println("•·•Informações do Ususário•·•");
+        // System.out.println("Nome: " + us.getNome());
+        // System.out.println("Email: " + us.getEmail());
+        // System.out.println("Senha: " + us.getSenha());
+    }
+
+    //Método p pular linha
+    public static void pularLinha() {
+        System.out.println();
+        System.out.println();
     }
 
     public static void testeGeralzao() {
@@ -159,4 +254,5 @@ public class Main {
             System.out.println();
         }
     }
+
 }
