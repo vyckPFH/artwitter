@@ -14,6 +14,12 @@ public class ComentarioController {
 
     private ComentarioDAO dao;
 
+
+    public ArrayList<Comentario> listarPorPost(int postId) {
+        return dao.selectComentariosPorPost(postId);
+    }
+    
+
     /**
      * Construtor que inicializa o controlador com uma instância de {@link ComentarioDAO}.
      */

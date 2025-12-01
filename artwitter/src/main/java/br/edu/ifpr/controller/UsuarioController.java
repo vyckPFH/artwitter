@@ -14,8 +14,13 @@ public class UsuarioController {
 
     private UsuarioDAO dao;
 
+    public Usuario buscarPorNome(String nome) {
+        return dao.buscarPorNome(nome);
+    }
+
     /**
-     * Construtor que inicializa o controlador com uma instância de {@link UsuarioDAO}.
+     * Construtor que inicializa o controlador com uma instância de
+     * {@link UsuarioDAO}.
      */
     public UsuarioController() {
         this.dao = new UsuarioDAO();

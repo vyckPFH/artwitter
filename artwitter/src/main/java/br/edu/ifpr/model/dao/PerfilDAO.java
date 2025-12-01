@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import br.edu.ifpr.model.utils.Perfil;
@@ -22,19 +23,27 @@ public class PerfilDAO {
     public void insert(Perfil perfil) {
         Connection con = ConnectionFactory.getConnection();
         String sql = "INSERT INTO perfil (usuario_id, descricao, foto) VALUES (?, ?, ?)";
-
+    
         try {
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+    
             ps.setInt(1, perfil.getUsuarioId());
             ps.setString(2, perfil.getDescricao());
             ps.setString(3, perfil.getFoto());
-
+    
             ps.executeUpdate();
-            System.out.println("Perfil inserido cm sucesso");
+            System.out.println("Perfil inserido com sucesso!");
+    
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                perfil.setUsuarioId(rs.getInt(1)); // <-- salva ID
+            }
+    
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
 
     /**
      * Retorna todos os perfis cadastrados no banco de dados.

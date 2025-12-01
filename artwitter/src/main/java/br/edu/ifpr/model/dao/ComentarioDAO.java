@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import br.edu.ifpr.model.utils.Comentario;
@@ -13,6 +14,37 @@ import br.edu.ifpr.model.utils.Comentario;
  * relacionadas à entidade {@link Comentario} no banco de dados.
  */
 public class ComentarioDAO {
+
+
+    
+    public ArrayList<Comentario> selectComentariosPorPost(int postId) {
+        ArrayList<Comentario> comentarios = new ArrayList<>();
+    
+        Connection con = ConnectionFactory.getConnection();
+        String sql = "SELECT * FROM comentario WHERE post_idPost = ?";
+    
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, postId);
+    
+            ResultSet rs = ps.executeQuery();
+    
+            while (rs.next()) {
+                Comentario c = new Comentario();
+                    rs.getString("texto");
+                    rs.getInt("post_idPost");
+                    rs.getInt("perfil_usuario_id");
+                    rs.getInt("id");
+                comentarios.add(c);
+            }
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return comentarios;
+    }
+    
 
     /**
      * Retorna todos os comentários cadastrados no banco de dados.
@@ -58,25 +90,28 @@ public class ComentarioDAO {
     public void insert(Comentario comentario) {
 
         Connection con = ConnectionFactory.getConnection();
-
-        String sql = ("INSERT INTO comentario(texto, perfil_usuario_id, post_idPost) VALUES(?,?,?);");
-
+        String sql = "INSERT INTO comentario(texto, perfil_usuario_id, post_idPost) VALUES (?, ?, ?)";
+    
         try {
-
-            PreparedStatement ps = con.prepareStatement(sql);
-
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+    
             ps.setString(1, comentario.getTexto());
             ps.setInt(2, comentario.getIdUsuario());
             ps.setInt(3, comentario.getIdPost());
-
+    
             ps.executeUpdate();
-            System.out.println("Comentário inserido cm sucesso");
-
+            System.out.println("Comentário inserido com sucesso!");
+    
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                comentario.setId(rs.getInt(1)); // <-- salva ID no objeto
+            }
+    
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
+    
 
     /**
      * Busca e retorna um comentário pelo seu ID.

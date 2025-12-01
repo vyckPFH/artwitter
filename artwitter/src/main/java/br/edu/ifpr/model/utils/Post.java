@@ -8,7 +8,19 @@ public class Post {
     private int likes = 0;
     private int usuarioId; // veio de perfil_usuario_id
 
-    public Post() {}
+    @Override
+    public String toString() {
+        return "Post { " +
+                "id=" + id +
+                ", imgURL='" + imagemURL + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", usuarioId=" + usuarioId +
+                ", likes=" + likes +
+                " }";
+    }
+
+    public Post() {
+    }
 
     public Post(String imagemURL, String descricao, int usuarioId) {
         this.imagemURL = imagemURL;

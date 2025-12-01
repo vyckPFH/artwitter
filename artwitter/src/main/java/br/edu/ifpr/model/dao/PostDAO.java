@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import br.edu.ifpr.model.utils.Comentario;
@@ -24,23 +25,29 @@ public class PostDAO {
      */
     public void insert(Post post) {
         Connection con = ConnectionFactory.getConnection();
-        String sql = "INSERT INTO post(imagemURL, descricao, likes, perfil_usuario_id) VALUES(?,?,?,?)";
-
+        String sql = "INSERT INTO post (imagemURL, descricao, likes, perfil_usuario_id) VALUES (?,?,?,?)";
+    
         try {
-            PreparedStatement ps = con.prepareStatement(sql);
-
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+    
             ps.setString(1, post.getImagemURL());
             ps.setString(2, post.getDescricao());
             ps.setInt(3, post.getLikes());
             ps.setInt(4, post.getUsuarioId());
-
+    
             ps.executeUpdate();
             System.out.println("Post inserido cm sucesso");
-
+    
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                post.setId(rs.getInt(1));
+            }
+    
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
 
     /**
      * Retorna todes os posts cadastrados no banco de dados.
@@ -233,6 +240,8 @@ public class PostDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idPost);
             ps.executeUpdate();
+
+            System.out.println("Like removido");
 
         } catch (SQLException e) {
             e.printStackTrace();

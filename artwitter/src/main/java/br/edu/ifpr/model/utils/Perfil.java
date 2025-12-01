@@ -6,7 +6,17 @@ public class Perfil {
     private String descricao;
     private String foto;
 
-    public Perfil() {}
+    @Override
+    public String toString() {
+        return "Perfil { " +
+                "usuarioId=" + usuarioId +
+                ", descricao='" + descricao + '\'' +
+                ", fotoURL='" + foto + '\'' +
+                " }";
+    }
+
+    public Perfil() {
+    }
 
     public Perfil(int usuarioId, String descricao, String foto) {
         this.usuarioId = usuarioId;
