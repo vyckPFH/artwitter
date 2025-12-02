@@ -36,7 +36,7 @@ public class Main {
         // printPerfils();
         testeGeralzao();
 
-        //Métodos e afins p/ MENU
+        // Métodos e afins p/ MENU
         int opc = 999;
 
         while (opc != 0) {
@@ -50,11 +50,11 @@ public class Main {
 
             switch (jaca) {
                 case 1:
-                    //metodo cadastro e direcionamento para feed se sucesso
+                    cadastrarUsuario();
 
                     break;
                 case 2:
-                    //metodo login e validação no BD e direcionamento para feed se sucesso
+                    // metodo login e validação no BD e direcionamento para feed se sucesso
                     break;
                 case 0:
                     break;
@@ -63,44 +63,36 @@ public class Main {
                     pularLinha();
                     break;
             }
-
-
-
-            // int eslha = LER.nextInt();
-            // switch (eslha) {
-            //     case 1:
-            //         System.out.println("•·•Menu - Opções do Usuário•·•");
-            //         System.out.println("Press 1 - Cadastrar novo usuário");
-            //         System.out.println("Press 2 - Alterar dados do usuário");
-            //         System.out.println("Press 3 - Buscar por usuário");
-            //         System.out.println("Press 4 - Deletar usuário existente");
-            //         //iniciar novo usuario aq
-            //         int irii = LER.nextInt();
-            //         switch (irii) {
-            //             case 1:
-            //                 //metodo insert
-            //                 break;
-            //             case 2:
-            //                 //metodo update 
-            //                 break;
-            //             case 3:
-            //                 //metodo select
-            //                 break;
-            //             case 4:
-            //                 //metodo delete 
-            //             default:
-            //                 break;
-            //         }
-            //         break;
-            //     default:
-            //         break;
-            // }
         }
-
     }
 
-//Método cadastro
-    public static void cadastrarUsuario(Usuario usuario){
+    public static void menuOpUsus() {
+        System.out.println("•·•Menu - Opções do Usuário•·•");
+        System.out.println("Press 1 - Cadastrar novo usuário");
+        System.out.println("Press 2 - Alterar dados do usuário");
+        System.out.println("Press 3 - Buscar por usuário");
+        System.out.println("Press 4 - Deletar usuário existente");
+
+        int eslha = LER.nextInt();
+        switch (eslha) {
+            case 1:
+                // metodo insert
+                break;
+            case 2:
+                // metodo update
+                break;
+            case 3:
+                // metodo select
+                break;
+            case 4:
+                // metodo delete
+            default:
+                break;
+        }
+    }
+
+    // Método cadastro
+    public static void cadastrarUsuario() {
         Usuario us = new Usuario(null, null, null);
 
         System.out.println("•·•Inicio de Cadastro•·•");
@@ -115,14 +107,17 @@ public class Main {
 
         System.out.println("Senha:");
         String senha = LER.next();
+        us.setSenha(senha);
 
-        // System.out.println("•·•Informações do Ususário•·•");
-        // System.out.println("Nome: " + us.getNome());
-        // System.out.println("Email: " + us.getEmail());
-        // System.out.println("Senha: " + us.getSenha());
     }
 
-    //Método p pular linha
+    // Select
+    // System.out.println("•·•Informações do Ususário•·•");
+    // System.out.println("Nome: " + us.getNome());
+    // System.out.println("Email: " + us.getEmail());
+    // System.out.println("Senha: " + us.getSenha());
+
+    // Método p pular linha
     public static void pularLinha() {
         System.out.println();
         System.out.println();

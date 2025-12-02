@@ -1,0 +1,15 @@
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/controller/ComentarioController.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/controller/PerfilController.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/controller/PostController.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/controller/UsuarioController.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/model/dao/ComentarioDAO.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/model/dao/ConnectionFactory.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/model/dao/PerfilDAO.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/model/dao/PostDAO.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/model/dao/UsuarioDAO.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/model/utils/Comentario.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/model/utils/Perfil.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/model/utils/Post.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/model/utils/Usuario.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/view/Main.java
+/save/lobo/artwitter-1/artwitter/src/main/java/br/edu/ifpr/view/metodoBanco.java
