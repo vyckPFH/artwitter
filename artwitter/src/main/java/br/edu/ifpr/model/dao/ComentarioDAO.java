@@ -158,15 +158,15 @@ public class ComentarioDAO {
 
         Connection con = ConnectionFactory.getConnection();
 
-        String sql = "UPDATE comentario SET texto = ?, perfil_usuario_id = ?, post_idPost = ? WHERE id = ?";
+        String sql = "UPDATE comentario SET texto = ?, usuario_id = ?, post_idPost = ? WHERE id = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
 
             ps.setString(1, comentario.getTexto());
+            ps.setInt(2, comentario.getComentOwner().getPerfilOwner().getId());
             ps.setInt(3, comentario.getIdPost());
             ps.setInt(4, comentario.getId());
-            ps.setInt(2, comentario.getComentOwner().getPerfilOwner());
 
             ps.executeUpdate();
             System.out.println("Comentário atualizado com sucesso");
