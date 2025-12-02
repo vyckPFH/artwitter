@@ -73,8 +73,8 @@ public class UsuarioController {
      *
      * @param id identificador do usuário a ser deletado
      */
-    public void deletarUsuario(int id) {
-        dao.delete(id);
+    public void deletarUsuario(Usuario usuario) {
+        dao.delete(usuario);
     }
 
     /**

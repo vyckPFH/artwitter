@@ -16,7 +16,7 @@ import br.edu.ifpr.model.utils.Post;
  */
 public class ComentarioDAO {
 
-
+    PerfilDAO perfilDAO = new PerfilDAO();
     
     public ArrayList<Comentario> selectComentariosPorPost(Post post) {
         ArrayList<Comentario> comentarios = new ArrayList<>();
@@ -70,7 +70,7 @@ public class ComentarioDAO {
 
                 c.setId(rs.getInt("id"));
                 c.setTexto(rs.getString("texto"));
-                c.setIdUsuario(rs.getInt("perfil_usuario_id"));
+                c.setComentOwner(perfilDAO.selectPorId(rs.getInt("perfil_usuario_id")));
                 c.setIdPost(rs.getInt("post_idPost"));
 
                 comentarios.add(c);
@@ -97,7 +97,7 @@ public class ComentarioDAO {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
     
             ps.setString(1, comentario.getTexto());
-            ps.setInt(2, comentario.getIdUsuario());
+            ps.setInt(2, comentario.getComentOwner().getPerfilOwner().getId());//**** */
             ps.setInt(3, comentario.getIdPost());
     
             ps.executeUpdate();
@@ -136,7 +136,7 @@ public class ComentarioDAO {
 
                 c.setId(rs.getInt("id"));
                 c.setTexto(rs.getString("texto"));
-                c.setIdUsuario(rs.getInt("perfil_usuario_id"));
+                c.setComentOwner(perfilDAO.selectPorId(rs.getInt("perfil_usuario_id")));
                 c.setIdPost(rs.getInt("post_idPost"));
 
                 return c;
@@ -164,7 +164,7 @@ public class ComentarioDAO {
             PreparedStatement ps = con.prepareStatement(sql);
 
             ps.setString(1, comentario.getTexto());
-            ps.setInt(2, comentario.getIdUsuario());
+            ps.setInt(2, comentario.getComentOwner().getPerfilOwner().getId());
             ps.setInt(3, comentario.getIdPost());
             ps.setInt(4, comentario.getId());
 
@@ -179,9 +179,9 @@ public class ComentarioDAO {
     /**
      * Deleta um comentário do banco de dados pelo ID.
      *
-     * @param id identificador do comentário a ser removido
+     * @param comentario identificador do comentário a ser removido
      */
-    public void delete(int id) {
+    public void delete(Comentario comentario) {
 
         Connection con = ConnectionFactory.getConnection();
 
@@ -189,7 +189,7 @@ public class ComentarioDAO {
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setInt(1, comentario.getId());
 
             ps.executeUpdate();
             System.out.println("Comentário deletado com sucesso");

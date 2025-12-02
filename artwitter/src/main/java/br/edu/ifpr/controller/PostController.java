@@ -38,7 +38,7 @@ public class PostController {
             return;
         }
 
-        if (post.getUsuarioId() <= 0) {
+        if (post.getPostOwner().getPerfilOwner().getId() <= 0) {
             System.out.println("O post precisa pertencer a um usuário válido.");
             return;
         }
@@ -85,59 +85,63 @@ public class PostController {
     /**
      * Atualiza somente a descrição de um post.
      *
-     * @param id        identificador do post
+     * @param post        identificador do post
      * @param descricao nova descrição a ser atribuída
      */
-    public void atualizarDescricao(int id, String descricao) {
+    public void atualizarDescricao(Post post, String descricao) {
         if (descricao == null || descricao.isBlank()) {
             System.out.println("Descrição não pode ser vazia.");
             return;
         }
-        dao.updateDescricao(id, descricao);
+        dao.updateDescricao(post, descricao);
     }
 
     /**
      * Atualiza somente a imagem de um post.
      *
-     * @param id         identificador do post
+     * @param post         identificador do post
      * @param novaImagem URL da nova imagem
      */
-    public void atualizarImagem(int id, String novaImagem) {
+    public void atualizarImagem(Post post, String novaImagem) {
         if (novaImagem == null || novaImagem.isBlank()) {
             System.out.println("Imagem não pode ser vazia.");
             return;
         }
-        dao.updateImagem(id, novaImagem);
+         if (post.getId() <= 0 ) {
+            System.out.println("Post deve existir.");
+            return;
+        }
+        dao.updateImagem(post, novaImagem);
     }
 
     /**
      * Remove um post do banco de dados.
      *
-     * @param id identificador do post a ser removido
+     * @param post identificador do post a ser removido
      */
-    public void deletar(int id) {
-        if (id <= 0) {
+    public void deletar(Post post) {
+        if (post.getId() <= 0) {
             System.out.println("ID inválido.");
             return;
         }
-        dao.delete(id);
+        dao.delete(post);
     }
 
     /**
      * Incrementa o número de likes de um post.
      *
-     * @param idPost identificador do post
+     * @param post identificador do post
      */
-    public void darLike(int idPost) {
-        dao.darLike(idPost);
+    public void darLike(Post post) {
+        dao.darLike(post);
     }
 
     /**
      * Decrementa o número de likes de um post.
      *
-     * @param idPost identificador do post
+     * @param post identificador do post
      */
-    public void removerLike(int idPost) {
-        dao.removerLike(idPost);
+    public void removerLike(Post post) {
+        dao.removerLike(post);
     }
 }

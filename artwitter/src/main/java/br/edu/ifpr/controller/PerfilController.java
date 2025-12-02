@@ -27,8 +27,8 @@ public class PerfilController {
      * @param perfil objeto contendo os dados do perfil a ser inserido
      */
     public void cadastrarPerfil(Perfil perfil) {
-        if (perfil.getUsuarioId() <= 0) {
-            System.out.println("ID do usuário inválido");
+        if (perfil.getPerfilOwner().getId() <= 0) {
+            System.out.println("ID do perfil inválido");
             return;
         }
         dao.insert(perfil);
@@ -46,11 +46,11 @@ public class PerfilController {
     /**
      * Busca um perfil pelo ID do usuário.
      *
-     * @param usuarioId identificador do usuário
+     * @param perfilId identificador do usuário
      * @return perfil correspondente ou {@code null} caso não exista
      */
-    public Perfil buscarPerfil(int usuarioId) {
-        return dao.selectPorId(usuarioId);
+    public Perfil buscarPorId(int perfilId) {
+        return dao.selectPorId(perfilId);
     }
 
     /**
@@ -59,8 +59,8 @@ public class PerfilController {
      * @param perfil objeto contendo os novos dados do perfil
      */
     public void atualizarPerfil(Perfil perfil) {
-        if (perfil.getUsuarioId() <= 0) {
-            System.out.println("ID do usuário inválido");
+        if (perfil.getPerfilOwner().getId() <= 0) {
+            System.out.println("ID do perfil inválido");
             return;
         }
         dao.update(perfil);
@@ -69,37 +69,37 @@ public class PerfilController {
     /**
      * Atualiza apenas a descrição de um perfil.
      *
-     * @param usuarioId     identificador do usuário
+     * @param perfil     identificador do usuário
      * @param novaDescricao nova descrição a ser atribuída
      */
-    public void atualizarDescricao(int usuarioId, String novaDescricao) {
+    public void atualizarDescricao(Perfil perfil, String novaDescricao) {
         if (novaDescricao == null || novaDescricao.isBlank()) {
             System.out.println("Descrição não pode ser nula ou vazia");
             return;
         }
-        dao.updateDescricao(usuarioId, novaDescricao);
+        dao.updateDescricao(perfil, novaDescricao);
     }
 
     /**
      * Atualiza apenas a foto de um perfil.
      *
-     * @param usuarioId identificador do usuário
+     * @param perfil identificador do usuário
      * @param novaFoto  URL da nova foto a ser atribuída
      */
-    public void atualizarFoto(int usuarioId, String novaFoto) {
+    public void atualizarFoto(Perfil perfil, String novaFoto) {
         if (novaFoto == null || novaFoto.isBlank()) {
             System.out.println("Foto não pode ser nula ou vazia");
             return;
         }
-        dao.updateFoto(usuarioId, novaFoto);
+        dao.updateFoto(perfil, novaFoto);
     }
 
     /**
      * Remove um perfil do banco de dados pelo ID do usuário.
      *
-     * @param usuarioId identificador do usuário
+     * @param perfil identificador do usuário
      */
-    public void deletarPerfil(int usuarioId) {
-        dao.delete(usuarioId);
+    public void deletarPerfil(Perfil perfil) {
+        dao.delete(perfil);
     }
 }

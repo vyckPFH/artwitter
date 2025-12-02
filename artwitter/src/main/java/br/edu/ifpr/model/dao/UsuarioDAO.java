@@ -142,7 +142,7 @@ public class UsuarioDAO {
      * 
      * @param usuario
      */
-    public void usuario(Usuario usuario) {
+    public void delete(Usuario usuario) {
 
         Connection con = ConnectionFactory.getConnection();
 

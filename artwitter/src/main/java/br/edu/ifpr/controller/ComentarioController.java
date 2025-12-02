@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import br.edu.ifpr.model.dao.ComentarioDAO;
 import br.edu.ifpr.model.utils.Comentario;
+import br.edu.ifpr.model.utils.Post;
 
 /**
  * Controlador responsável por gerenciar operações relacionadas
@@ -15,8 +16,8 @@ public class ComentarioController {
     private ComentarioDAO dao;
 
 
-    public ArrayList<Comentario> listarPorPost(int postId) {
-        return dao.selectComentariosPorPost(postId);
+    public ArrayList<Comentario> listarDePost(Post post) {
+        return dao.selectComentariosPorPost(post);
     }
     
 
@@ -72,9 +73,9 @@ public class ComentarioController {
     /**
      * Remove um comentário do sistema com base no seu ID.
      *
-     * @param id identificador do comentário a ser removido
+     * @param comentario identificador do comentário a ser removido
      */
-    public void deletarComentario(int id) {
-        dao.delete(id);
+    public void deletarComentario(Comentario comentario) {
+        dao.delete(comentario);
     }
 }
