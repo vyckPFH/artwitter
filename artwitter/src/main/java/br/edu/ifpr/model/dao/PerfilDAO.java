@@ -63,7 +63,7 @@ public class PerfilDAO {
 
             while (rs.next()) {
                 Perfil perfil = new Perfil();
-                perfil.setPerfilOwner(usuarioDAO.selectPorId(rs.getInt("perfil_usuario_id")));
+                perfil.setPerfilOwner(usuarioDAO.selectPorId(rs.getInt("usuario_id")));
                 perfil.setDescricao(rs.getString("descricao"));
                 perfil.setFoto(rs.getString("foto"));
 
@@ -94,7 +94,7 @@ public class PerfilDAO {
 
             if (rs.next()) {
                 Perfil perfil = new Perfil();
-                perfil.setPerfilOwner(usuarioDAO.selectPorId(rs.getInt("perfil_usuario_id")));/******* */
+                perfil.setPerfilOwner(usuarioDAO.selectPorId(rs.getInt("usuario_id")));/******* */
                 perfil.setDescricao(rs.getString("descricao"));
                 perfil.setFoto(rs.getString("foto"));
 

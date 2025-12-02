@@ -1,0 +1,99 @@
+    public static void testeGeralzao() {
+
+        System.out.println("========== CADASTRANDO USUÁRIOS ==========");
+
+        Usuario u1 = new Usuario("capybara", "capy@mail.com", "123");
+        Usuario u2 = new Usuario("sayori", "sayori@mail.com", "123");
+        Usuario u3 = new Usuario("clt", "clt@mail.com", "123");
+
+        usuarioController.cadastrarUsuario(u1);
+        usuarioController.cadastrarUsuario(u2);
+        usuarioController.cadastrarUsuario(u3);
+
+        System.out.println(usuarioController.listarUsuarios());
+
+        System.out.println("========== CADASTRANDO PERFIS ==========");
+
+        Perfil p1 = new Perfil(u1.getId(), "sou uma capivara", "capyURL");
+        Perfil p2 = new Perfil(u2.getId(), "sou a sayori", "sayURL");
+        Perfil p3 = new Perfil(u3.getId(), "escravizado", "cltURL");
+
+        perfilController.cadastrarPerfil(p1);
+        perfilController.cadastrarPerfil(p2);
+        perfilController.cadastrarPerfil(p3);
+
+        System.out.println(perfilController.listarPerfis());
+
+        System.out.println("========== CADASTRANDO POSTS ==========");
+
+        Post post1 = new Post("img1URL", "primeiro post", p1.getUsuarioId());
+        Post post2 = new Post("img2URL", "segundo post", p2.getUsuarioId());
+
+        postController.postar(post1);
+        postController.postar(post2);
+
+        System.out.println(postController.listar());
+
+        System.out.println("========== DANDO LIKES ==========");
+
+        postController.darLike(post1.getId());
+        postController.darLike(post1.getId());
+        postController.removerLike(post1.getId());
+        postController.darLike(post2.getId());
+
+        System.out.println(postController.listar());
+
+        System.out.println("========== CADASTRANDO COMENTÁRIOS ==========");
+
+        Comentario c1 = new Comentario("legal!", post1.getId(), p1.getUsuarioId());
+        Comentario c2 = new Comentario("massa!", post1.getId(), p2.getUsuarioId());
+        Comentario c3 = new Comentario("arrasou", post2.getId(), p3.getUsuarioId());
+
+        comentarioController.comentar(c1);
+        comentarioController.comentar(c2);
+        comentarioController.comentar(c3);
+
+        System.out.println(comentarioController.listarComentarios());
+
+        System.out.println("========== FAZENDO UPDATES ==========");
+
+        // Atualizar usuário
+        u1.setNome("capyAtualizada");
+        u1.setEmail("novaCapy@mail.com");
+        u1.setSenha("nova123");
+        usuarioController.atualizarUsuario(u1);
+
+        // Atualizar perfil
+        perfilController.atualizarDescricao(p1.getUsuarioId(), "capivara atualizada");
+        perfilController.atualizarFoto(p1.getUsuarioId(), "novaFotoURL");
+
+        // Atualizar post
+        postController.atualizarDescricao(post1.getId(), "post editado");
+        postController.atualizarImagem(post1.getId(), "novaIMG");
+
+        // Atualizar comentário (pega o primeiro do post)
+        ArrayList<Comentario> comentariosPost1 = comentarioController.listarPorPost(post1.getId());
+        if (!comentariosPost1.isEmpty()) {
+            Comentario com = comentariosPost1.get(0);
+            com.setTexto("editado!!!");
+            comentarioController.atualizarComentario(com);
+        }
+
+        System.out.println("USUÁRIOS ATUALIZADOS: " + usuarioController.listarUsuarios());
+        System.out.println("PERFIS ATUALIZADOS: " + perfilController.listarPerfis());
+        System.out.println("POSTS ATUALIZADOS: " + postController.listar());
+        System.out.println("COMENTÁRIOS ATUALIZADOS: " + comentarioController.listarComentarios());
+
+        System.out.println("========== LIMPANDO BANCO (ON DELETE CASCADE) ==========");
+
+        usuarioController.deletarUsuario(u1.getId());
+        usuarioController.deletarUsuario(u2.getId());
+        usuarioController.deletarUsuario(u3.getId());
+
+        System.out.println(usuarioController.listarUsuarios());
+        System.out.println(perfilController.listarPerfis());
+        System.out.println(postController.listar());
+        System.out.println(comentarioController.listarComentarios());
+
+        System.out.println("========== FIM DO TESTE ==========");
+    }

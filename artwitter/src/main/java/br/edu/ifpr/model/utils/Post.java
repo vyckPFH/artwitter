@@ -27,10 +27,10 @@ public class Post {
     }
 
 
-    public Post(String imagemURL, String descricao, int likes, Perfil postOwner) {
+    public Post(String imagemURL, String descricao, Perfil postOwner) {
         this.imagemURL = imagemURL;
         this.descricao = descricao;
-        this.likes = likes;
+        this.likes = 0;
         this.postOwner = postOwner;
     }
 

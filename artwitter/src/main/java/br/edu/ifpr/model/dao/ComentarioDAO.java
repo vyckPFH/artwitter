@@ -136,7 +136,7 @@ public class ComentarioDAO {
 
                 c.setId(rs.getInt("id"));
                 c.setTexto(rs.getString("texto"));
-                c.setComentOwner(perfilDAO.selectPorId(rs.getInt("perfil_usuario_id")));
+                c.setComentOwner(perfilDAO.selectPorId(rs.getInt("usuario_id")));
                 c.setIdPost(rs.getInt("post_idPost"));
 
                 return c;
@@ -164,9 +164,9 @@ public class ComentarioDAO {
             PreparedStatement ps = con.prepareStatement(sql);
 
             ps.setString(1, comentario.getTexto());
-            ps.setInt(2, comentario.getComentOwner().getPerfilOwner().getId());
             ps.setInt(3, comentario.getIdPost());
             ps.setInt(4, comentario.getId());
+            ps.setInt(2, comentario.getComentOwner().getPerfilOwner());
 
             ps.executeUpdate();
             System.out.println("Comentário atualizado com sucesso");
