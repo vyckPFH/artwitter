@@ -3,7 +3,9 @@ package br.edu.ifpr.controller;
 import java.util.ArrayList;
 
 import br.edu.ifpr.model.dao.PostDAO;
+import br.edu.ifpr.model.utils.Perfil;
 import br.edu.ifpr.model.utils.Post;
+import br.edu.ifpr.model.utils.Usuario;
 
 /**
  * Controlador responsável por gerenciar operações de criação, leitura,
@@ -13,6 +15,45 @@ import br.edu.ifpr.model.utils.Post;
 public class PostController {
 
     private PostDAO dao;
+    private SeguindoController seguindoController = new SeguindoController();
+    private PerfilController perfilController = new PerfilController();
+
+    public ArrayList<Post> listarFeed(Usuario usuario) {
+
+        ArrayList<Post> feed = new ArrayList<>();
+    
+        Perfil meuPerfil = perfilController.buscarPorId(usuario.getId());
+        if (meuPerfil == null) {
+            return feed;
+        }
+    
+        ArrayList<Usuario> usuariosSeguidos = seguindoController.listarSeguidos(usuario);
+    
+        ArrayList<Perfil> perfisSeguidos = new ArrayList<>();
+    
+        for (Usuario u : usuariosSeguidos) {
+            Perfil p = perfilController.buscarPorId(u.getId());
+            if (p != null) {
+                perfisSeguidos.add(p);
+            }
+        }
+    
+        
+        for (Perfil perfil : perfisSeguidos) {
+            ArrayList<Post> posts = listarPorPerfil(perfil);
+            feed.addAll(posts);
+        }
+    
+        return feed;
+    }
+    
+    
+    
+    
+
+    public ArrayList<Post> listarPorPerfil(Perfil perfil) {
+        return dao.selectByPerfil(perfil);
+    }
 
     /**
      * Construtor padrão que inicializa um {@link PostDAO} para acesso ao banco.
@@ -85,7 +126,7 @@ public class PostController {
     /**
      * Atualiza somente a descrição de um post.
      *
-     * @param post        identificador do post
+     * @param post      identificador do post
      * @param descricao nova descrição a ser atribuída
      */
     public void atualizarDescricao(Post post, String descricao) {
@@ -99,7 +140,7 @@ public class PostController {
     /**
      * Atualiza somente a imagem de um post.
      *
-     * @param post         identificador do post
+     * @param post       identificador do post
      * @param novaImagem URL da nova imagem
      */
     public void atualizarImagem(Post post, String novaImagem) {
@@ -107,7 +148,7 @@ public class PostController {
             System.out.println("Imagem não pode ser vazia.");
             return;
         }
-         if (post.getId() <= 0 ) {
+        if (post.getId() <= 0) {
             System.out.println("Post deve existir.");
             return;
         }

@@ -11,6 +11,8 @@ import br.edu.ifpr.model.utils.Usuario;
 
 public class UsuarioDAO {
 
+
+
     public Usuario buscarPorNome(String nome) {
 
         Connection con = ConnectionFactory.getConnection();
@@ -112,30 +114,25 @@ public class UsuarioDAO {
      * 
      * @param usuario
      */
-    public void insert(Usuario usuario) {
+    public void insert(Usuario usuario) throws SQLException {
 
         Connection con = ConnectionFactory.getConnection();
-
-        String sql = ("INSERT INTO usuario (nome,email,senha) VALUES(?,?,?);");
-
-        try {
-
-            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, usuario.getNome());
-            ps.setString(2, usuario.getEmail());
-            ps.setString(3, usuario.getSenha());
-
-            ps.executeUpdate();
-            System.out.println("Usuario inserido cm sucesso");
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                usuario.setId(rs.getInt(1));  //preciso ver aq dps
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    
+        String sql = "INSERT INTO usuario (nome,email,senha) VALUES(?,?,?)";
+    
+        PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, usuario.getNome());
+        ps.setString(2, usuario.getEmail());
+        ps.setString(3, usuario.getSenha());
+    
+        ps.executeUpdate();
+    
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            usuario.setId(rs.getInt(1));
         }
-
     }
+    
     
     /**
      * deleta um usuario e tudo associado a ele pelo id

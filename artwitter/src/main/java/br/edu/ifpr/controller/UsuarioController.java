@@ -1,6 +1,8 @@
 package br.edu.ifpr.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import br.edu.ifpr.model.dao.UsuarioDAO;
 import br.edu.ifpr.model.utils.Usuario;
@@ -11,6 +13,8 @@ import br.edu.ifpr.model.utils.Usuario;
  * para o {@link UsuarioDAO}.
  */
 public class UsuarioController {
+
+    final static Scanner LER = new Scanner(System.in);
 
     private UsuarioDAO dao;
 
@@ -26,6 +30,48 @@ public class UsuarioController {
         this.dao = new UsuarioDAO();
     }
 
+    public boolean validarUsuario(Usuario usuario) {
+        if (usuario.getNome() == null || usuario.getNome().isEmpty()) {
+            System.out.println("Erro: Nome não pode ser nulo ou vazio.");
+            return false;
+        }
+        if (usuario.getNome() == null || usuario.getNome().isBlank()) {
+            System.out.println("Nome inválido!");
+            return false;
+        }
+
+        if (usuario.getEmail() == null || usuario.getEmail().isEmpty()) {
+            System.out.println("Erro: Email não pode ser nulo ou vazio.");
+            return false;
+        }
+        if (!usuario.getEmail().contains("@")) {
+            System.out.println("Email inválido!");
+            return false;
+        }
+
+        if (usuario.getSenha() == null || usuario.getSenha().isEmpty()) {
+            System.out.println("Erro: Senha não pode ser nula ou vazia.");
+            return false;
+        }
+        if (usuario.getSenha().length() < 4) {
+            System.out.println("Senha muito curta!");
+            return false;
+        }
+
+        return true;
+    }
+
+    public Usuario login(String nome, String senha) {
+        ArrayList<Usuario> usuarios = dao.select();
+
+        for (Usuario u : usuarios) {
+            if (u.getNome().equals(nome) && u.getSenha().equals(senha)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
     /**
      * Cadastra um usuário no sistema após validar seus dados.
      *
@@ -33,20 +79,35 @@ public class UsuarioController {
      */
     public void cadastrarUsuario(Usuario usuario) {
 
-        if (usuario.getNome() == null || usuario.getNome().isEmpty()) {
-            System.out.println("Erro: Nome não pode ser nulo ou vazio.");
-            return;
-        }
-        if (usuario.getEmail() == null || usuario.getEmail().isEmpty()) {
-            System.out.println("Erro: Email não pode ser nulo ou vazio.");
-            return;
-        }
-        if (usuario.getSenha() == null || usuario.getSenha().isEmpty()) {
-            System.out.println("Erro: Senha não pode ser nula ou vazia.");
-            return;
-        }
+        do {
+            System.out.println("···Inicio de Cadastro···");
 
-        dao.insert(usuario);
+            System.out.print("Nome: ");
+            usuario.setNome(LER.next());
+
+            System.out.print("Email: ");
+            usuario.setEmail(LER.next());
+
+            System.out.print("Senha: ");
+            usuario.setSenha(LER.next());
+
+        } while (!validarUsuario(usuario));
+
+        try {
+
+            dao.insert(usuario);
+            System.out.println("Usuário cadastrado com sucesso!");
+
+        } catch (SQLException e) {
+
+            if (e.getMessage().contains("Duplicate entry")) {
+                // Esse erro acontece quando o nome é único no banco
+                System.out.println("Erro: Este nome já está em uso!");
+            } else {
+                System.out.println("Erro no banco de dados: " + e.getMessage());
+            }
+
+        }
     }
 
     /**

@@ -97,3 +97,51 @@
 
         System.out.println("========== FIM DO TESTE ==========");
     }
+
+
+
+    public static void verSeguidoresSeguindo(Usuario usuarioLogado) {
+
+        limparTela(); // ADICIONADO
+
+        System.out.println("\n··· Seguidores / Seguindo ···");
+
+        ArrayList<Usuario> seguidores = seguindoController.listarSeguidores(usuarioLogado);
+        ArrayList<Usuario> seguindo = seguindoController.listarSeguindo(usuarioLogado);
+
+        System.out.println("\nSeguindo:");
+        if (seguindo.isEmpty())
+            System.out.println("(Você não segue ninguém)");
+        for (Usuario u : seguindo)
+            System.out.println("@" + u.getNome());
+
+        System.out.println("\nSeguidores:");
+        if (seguidores.isEmpty())
+            System.out.println("(Ninguém te segue ainda)");
+        for (Usuario u : seguidores)
+            System.out.println("@" + u.getNome());
+    }
+
+    public static void seguirUsuario(Usuario usuarioLogado) {
+
+        limparTela(); // ADICIONADO
+
+        System.out.println("\n··· Seguir usuário ···");
+        System.out.print("Digite o nome do usuário que deseja seguir: ");
+        String nome = LER.next();
+
+        Usuario u = usuarioController.buscarPorNome(nome);
+
+        if (u == null) {
+            System.out.println("Usuário não encontrado.");
+            return;
+        }
+
+        if (u.getId() == usuarioLogado.getId()) {
+            System.out.println("Você não pode seguir a si mesmo.");
+            return;
+        }
+
+        seguindoController.seguir(usuarioLogado, u);
+        System.out.println("Agora você segue @" + u.getNome());
+    }

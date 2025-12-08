@@ -7,8 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import br.edu.ifpr.controller.PerfilController;
+import br.edu.ifpr.controller.SeguindoController;
+import br.edu.ifpr.controller.UsuarioController;
 import br.edu.ifpr.model.utils.Comentario;
+import br.edu.ifpr.model.utils.Perfil;
 import br.edu.ifpr.model.utils.Post;
+import br.edu.ifpr.model.utils.Usuario;
 
 /**
  * Classe responsável por realizar operações de CRUD e consultas.
@@ -18,6 +23,74 @@ public class PostDAO {
 
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
     private PerfilDAO perfilDAO = new PerfilDAO();
+    private static UsuarioController usuarioController = new UsuarioController();
+    private static SeguindoController seguindoController = new SeguindoController();
+    private static PerfilController perfilController = new PerfilController();
+
+    public ArrayList<Post> listarFeed(Usuario usuario) {
+
+        ArrayList<Post> feed = new ArrayList<Post>();
+    
+        ArrayList<Usuario> seguidos = seguindoController.listarSeguidos(usuario);
+    
+        // seguidos.add(usuario);
+    
+        // 3) para cada usuário seguido, pegar o perfil e listar os posts desse perfil
+        for (int i = 0; i < seguidos.size(); i++) {
+            Usuario u = seguidos.get(i);
+    
+            // busca o perfil correspondente ao usuario
+            Perfil perfil = perfilController.buscarPorId(u.getId());
+            if (perfil != null) {
+                // usa SEU método existente no PostController
+                ArrayList<Post> posts = this.selectByPerfil(perfil);
+    
+                if (posts != null) {
+                    for (int x = 0; x < posts.size(); x++) {
+                        feed.add(posts.get(x));
+                    }
+                }
+            }
+        }
+    
+        return feed;
+    }
+    
+    
+
+    public ArrayList<Post> selectByPerfil(Perfil perfil) {
+        Connection con = ConnectionFactory.getConnection();
+        ArrayList<Post> posts = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM post WHERE perfil_usuario_id = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, perfil.getPerfilOwner().getId());
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Post post = new Post();
+
+                post.setId(rs.getInt("id"));
+                post.setImagemURL(rs.getString("imagemURL"));
+                post.setDescricao(rs.getString("descricao"));
+                post.setLikes(rs.getInt("likes"));
+
+                // Dono do post (perfil do usuário)
+                // Perfil p = perfilDAO.selectPorId(rs.getInt("usuario_id"));
+                // post.setPostOwner(p);
+                post.setPostOwner(perfil);
+
+                posts.add(post);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return posts;
+    }
 
     /**
      * bota um novo post no banco de dados.
@@ -25,25 +98,26 @@ public class PostDAO {
      * @param post objeto contendo os dados do post a ser botado.
      */
     public void insert(Post post) {
+
         Connection con = ConnectionFactory.getConnection();
         String sql = "INSERT INTO post (imagemURL, descricao, likes, perfil_usuario_id) VALUES (?,?,?,?)";
-    
+
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-    
+
             ps.setString(1, post.getImagemURL());
             ps.setString(2, post.getDescricao());
             ps.setInt(3, post.getLikes());
-            ps.setInt(4, post.getPostOwner().getPerfilOwner().getId());//*** */
-    
+            ps.setInt(4, post.getPostOwner().getPerfilOwner().getId());// *** */
+
             ps.executeUpdate();
             System.out.println("Post inserido cm sucesso");
-    
+
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 post.setId(rs.getInt(1));
             }
-    
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,7 +133,6 @@ public class PostDAO {
         Connection con = ConnectionFactory.getConnection();
         ArrayList<Post> posts = new ArrayList<>();
 
-        
         try {
             String sql = "SELECT * FROM post";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -172,7 +245,7 @@ public class PostDAO {
             ps.setString(1, post.getImagemURL());
             ps.setString(2, post.getDescricao());
             ps.setInt(3, post.getLikes());
-            ps.setInt(4, post.getPostOwner().getPerfilOwner().getId());//*********** */
+            ps.setInt(4, post.getPostOwner().getPerfilOwner().getId());// *********** */
             ps.setInt(5, post.getId());
 
             ps.executeUpdate();
@@ -252,7 +325,7 @@ public class PostDAO {
     /**
      * Atualiza somente a descrição de um post.
      *
-     * @param post            identificador do post
+     * @param post          identificador do post
      * @param novaDescricao nova descrição a ser atribuída
      */
     public void updateDescricao(Post post, String novaDescricao) {
@@ -263,7 +336,7 @@ public class PostDAO {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, novaDescricao);
-            ps.setInt(2, post.getId());//*** */
+            ps.setInt(2, post.getId());// *** */
 
             ps.executeUpdate();
             System.out.println("Descrição atualizada cm sucesso");
@@ -276,7 +349,7 @@ public class PostDAO {
     /**
      * Atualiza somente a imagem de um post.
      *
-     * @param post            identificador do post
+     * @param post          identificador do post
      * @param novaImagemURL URL da nova imagem
      */
     public void updateImagem(Post post, String novaImagemURL) {
