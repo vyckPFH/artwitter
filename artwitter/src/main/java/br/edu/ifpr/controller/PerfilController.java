@@ -69,7 +69,7 @@ public class PerfilController {
     /**
      * Atualiza apenas a descrição de um perfil.
      *
-     * @param perfil     identificador do usuário
+     * @param perfil        identificador do usuário
      * @param novaDescricao nova descrição a ser atribuída
      */
     public void atualizarDescricao(Perfil perfil, String novaDescricao) {
@@ -83,8 +83,8 @@ public class PerfilController {
     /**
      * Atualiza apenas a foto de um perfil.
      *
-     * @param perfil identificador do usuário
-     * @param novaFoto  URL da nova foto a ser atribuída
+     * @param perfil   identificador do usuário
+     * @param novaFoto URL da nova foto a ser atribuída
      */
     public void atualizarFoto(Perfil perfil, String novaFoto) {
         if (novaFoto == null || novaFoto.isBlank()) {

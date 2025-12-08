@@ -21,35 +21,30 @@ public class PostController {
     public ArrayList<Post> listarFeed(Usuario usuario) {
 
         ArrayList<Post> feed = new ArrayList<>();
-    
+
         Perfil meuPerfil = perfilController.buscarPorId(usuario.getId());
         if (meuPerfil == null) {
             return feed;
         }
-    
+
         ArrayList<Usuario> usuariosSeguidos = seguindoController.listarSeguidos(usuario);
-    
+
         ArrayList<Perfil> perfisSeguidos = new ArrayList<>();
-    
+
         for (Usuario u : usuariosSeguidos) {
             Perfil p = perfilController.buscarPorId(u.getId());
             if (p != null) {
                 perfisSeguidos.add(p);
             }
         }
-    
-        
+
         for (Perfil perfil : perfisSeguidos) {
             ArrayList<Post> posts = listarPorPerfil(perfil);
             feed.addAll(posts);
         }
-    
+
         return feed;
     }
-    
-    
-    
-    
 
     public ArrayList<Post> listarPorPerfil(Perfil perfil) {
         return dao.selectByPerfil(perfil);

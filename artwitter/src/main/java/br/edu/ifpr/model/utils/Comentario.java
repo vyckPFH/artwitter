@@ -9,15 +9,13 @@ public class Comentario {
 
     // @Override
     // public String toString() {
-    //     return "Comentario { " +
-    //             "id=" + id +
-    //             ", texto='" + texto + '\'' +
-    //             ", idPost=" + idPost +
-    //             ", usuarioId=" + idUsuario +
-    //             " }";
+    // return "Comentario { " +
+    // "id=" + id +
+    // ", texto='" + texto + '\'' +
+    // ", idPost=" + idPost +
+    // ", usuarioId=" + idUsuario +
+    // " }";
     // }
-
-   
 
     public Comentario(int id, String texto, int idPost, Perfil comentOwner) {
         this.id = id;
@@ -66,9 +64,5 @@ public class Comentario {
     public void setComentOwner(Perfil comentOwner) {
         this.comentOwner = comentOwner;
     }
-
-    
-
-    
 
 }

@@ -76,8 +76,8 @@ public class SeguindoDAO {
                 lista.add(new Seguindo(seguidor, seguido));
             }
 
-            rs.close();
-            ps.close();
+            // rs.close();
+            // ps.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -16,24 +16,6 @@ public class PerfilDAO {
 
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Insere um novo perfil no banco de dados.
      *
@@ -44,7 +26,8 @@ public class PerfilDAO {
         String sql = "INSERT INTO perfil (usuario_id, descricao, foto) VALUES (?, ?, ?)";
 
         try {
-            // PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            // PreparedStatement ps = con.prepareStatement(sql,
+            // Statement.RETURN_GENERATED_KEYS);
 
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, perfil.getPerfilOwner().getId());
@@ -170,7 +153,7 @@ public class PerfilDAO {
     /**
      * Atualiza apenas a descrição de um perfil existente.
      *
-     * @param perfil     identificador do usuário
+     * @param perfil        identificador do usuário
      * @param novaDescricao nova descrição a ser atribuída
      */
     public void updateDescricao(Perfil perfil, String novaDescricao) {
@@ -191,8 +174,8 @@ public class PerfilDAO {
     /**
      * Atualiza apenas a foto de um perfil existente.
      *
-     * @param perfil identificador do usuário
-     * @param novaFoto  URL da nova foto a ser atribuída
+     * @param perfil   identificador do usuário
+     * @param novaFoto URL da nova foto a ser atribuída
      */
     public void updateFoto(Perfil perfil, String novaFoto) {
         Connection con = ConnectionFactory.getConnection();

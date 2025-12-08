@@ -8,11 +8,11 @@ public class Perfil {
 
     // @Override
     // public String toString() {
-    //     return "Perfil { " +
-    //             "usuarioId=" + usuarioId +
-    //             ", descricao='" + descricao + '\'' +
-    //             ", fotoURL='" + foto + '\'' +
-    //             " }";
+    // return "Perfil { " +
+    // "usuarioId=" + usuarioId +
+    // ", descricao='" + descricao + '\'' +
+    // ", fotoURL='" + foto + '\'' +
+    // " }";
     // }
 
     public Perfil(Usuario perfilOwner, String descricao, String foto) {
@@ -21,12 +21,8 @@ public class Perfil {
         this.foto = foto;
     }
 
-
-
     public Perfil() {
     }
-
- 
 
     public String getDescricao() {
         return descricao;
@@ -51,7 +47,5 @@ public class Perfil {
     public void setPerfilOwner(Usuario perfilOwner) {
         this.perfilOwner = perfilOwner;
     }
-
-   
 
 }

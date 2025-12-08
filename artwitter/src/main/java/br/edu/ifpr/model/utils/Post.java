@@ -9,13 +9,13 @@ public class Post {
     private Perfil postOwner;
     // @Override
     // public String toString() {
-    //     return "Post { " +
-    //             "id=" + id +
-    //             ", imgURL='" + imagemURL + '\'' +
-    //             ", descricao='" + descricao + '\'' +
-    //             ", usuarioId=" + usuarioId +
-    //             ", likes=" + likes +
-    //             " }";
+    // return "Post { " +
+    // "id=" + id +
+    // ", imgURL='" + imagemURL + '\'' +
+    // ", descricao='" + descricao + '\'' +
+    // ", usuarioId=" + usuarioId +
+    // ", likes=" + likes +
+    // " }";
     // }
 
     public Post(int id, String imagemURL, String descricao, int likes, Perfil postOwner) {
@@ -26,7 +26,6 @@ public class Post {
         this.postOwner = postOwner;
     }
 
-
     public Post(String imagemURL, String descricao, Perfil postOwner) {
         this.imagemURL = imagemURL;
         this.descricao = descricao;
@@ -34,11 +33,9 @@ public class Post {
         this.postOwner = postOwner;
     }
 
-
     public Post() {
     }
 
-    
     public int getId() {
         return id;
     }

@@ -5,7 +5,8 @@ public class Seguindo {
     private Usuario seguidor;
     private Usuario seguido;
 
-    public Seguindo() {}
+    public Seguindo() {
+    }
 
     public Seguindo(Usuario seguidor, Usuario seguido) {
         this.seguidor = seguidor;
