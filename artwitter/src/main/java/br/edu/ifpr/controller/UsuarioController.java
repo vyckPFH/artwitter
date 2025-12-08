@@ -53,8 +53,8 @@ public class UsuarioController {
             System.out.println("Erro: Senha não pode ser nula ou vazia.");
             return false;
         }
-        if (usuario.getSenha().length() < 4) {
-            System.out.println("Senha muito curta!");
+        if (usuario.getSenha().length() < 6) {
+            System.out.println("Senha muito curta! minimo 6 caracteres");
             return false;
         }
 
@@ -96,7 +96,7 @@ public class UsuarioController {
         try {
 
             dao.insert(usuario);
-            System.out.println("Usuário cadastrado com sucesso!");
+            System.out.println("Conta criada com sucesso!");
 
         } catch (SQLException e) {
 

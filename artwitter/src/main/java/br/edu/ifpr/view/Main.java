@@ -4,19 +4,16 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import br.edu.ifpr.controller.ComentarioController;
 import br.edu.ifpr.controller.PerfilController;
 import br.edu.ifpr.controller.PostController;
 import br.edu.ifpr.controller.SeguindoController;
 import br.edu.ifpr.controller.UsuarioController;
-import br.edu.ifpr.model.utils.Comentario;
 import br.edu.ifpr.model.utils.Perfil;
 import br.edu.ifpr.model.utils.Post;
 import br.edu.ifpr.model.utils.Usuario;
 
 public class Main {
 
-    private static ComentarioController comentarioController = new ComentarioController();
     private static PerfilController perfilController = new PerfilController();
     private static PostController postController = new PostController();
     private static UsuarioController usuarioController = new UsuarioController();
@@ -126,10 +123,9 @@ public class Main {
         Usuario novo = new Usuario();
         usuarioController.cadastrarUsuario(novo);
 
-        System.out.println("Conta criada! Agora faça login.");
     }
 
-    // menu principal
+    // menu após realização do login :D
     public static void menuPosLogin(Usuario user) {
 
         while (true) {
@@ -137,14 +133,15 @@ public class Main {
 
             System.out.println("\n··· Menu ···");
             System.out.println("Logado como: @" + user.getNome());
-            System.out.println("1 - Ver perfil");
-            System.out.println("2 - Editar perfil");
-            System.out.println("3 - Criar post");
-            System.out.println("4 - Ver meus posts");
-            System.out.println("5 - Ver feed");
-            System.out.println("6 - Logout");
-            System.out.println("7 - Seguir alguém");
-            System.out.println("8 - Ver seguidores / seguindo");
+            System.out.println("1 - Abrir seu perfil");
+            System.out.println("2 - Editar seu perfil");
+            System.out.println("3 - Criar um post");
+            System.out.println("4 - Deletar um post");
+            System.out.println("5 - Ver seu feed");
+            System.out.println("6 - Seguir alguém");
+            System.out.println("7 - Ver seguidores / seguindo");
+            System.out.println("8 - Logout");
+
             System.out.print("Escolha: ");
 
             int op = lerInt();
@@ -152,6 +149,7 @@ public class Main {
             switch (op) {
                 case 1:
                     mostrarPerfil(user);
+                    listarPostsUsuario(user);
                     break;
                 case 2:
                     editarPerfil(user);
@@ -161,25 +159,31 @@ public class Main {
                     break;
                 case 4:
                     listarPostsUsuario(user);
+                    System.out.print(
+                            "Selecione o id do post que você deseja deletar(0 - para voltar sem deletar um post): ");
+                    int id = LER.nextInt();
+                    if (id == 0) {
+                        break;
+                    }
+                    Post p = postController.buscarPorId(id);
+                    postController.deletar(p);
                     break;
                 case 5:
                     verFeed(user);
                     break;
                 case 6:
-                    System.out.println("Você saiu da conta @" + user.getNome());
-                    return;
-
-                case 7:
                     seguirUsuario(user);
                     break;
-
-                case 8:
+                case 7:
                     verSeguidoresSeguindo(user);
-                    break;
-
+                    return;
+                case 8:
+                    System.out.println("Você saiu da conta @" + user.getNome());
+                    return;
                 default:
                     System.out.println("Opção inválida.");
             }
+
         }
     }
 
@@ -246,7 +250,8 @@ public class Main {
         String img = LER.next();
 
         System.out.print("Legenda: ");
-        String desc = LER.next();
+        LER.nextLine();
+        String desc = LER.nextLine();
 
         Post post = new Post(img, desc, p);
         postController.postar(post);
@@ -318,22 +323,9 @@ public class Main {
             System.out.println("Legenda: " + post.getDescricao());
             System.out.println("Likes: " + post.getLikes());
 
-            ArrayList<Comentario> comentarios = comentarioController.listarDePost(post);
-            System.out.println("\nComentários:");
-            if (comentarios.isEmpty()) {
-                System.out.println("(Nenhum comentário)");
-            } else {
-                for (Comentario c : comentarios) {
-                    System.out.println("- @" +
-                            c.getComentOwner().getPerfilOwner().getNome() +
-                            ": " + c.getTexto());
-                }
-            }
-
             System.out.println("\nAções:");
             System.out.println("1 - Curtir");
             System.out.println("2 - Remover like");
-            System.out.println("3 - Comentar");
             System.out.println("0 - Voltar");
             System.out.print("Escolha: ");
 
@@ -354,14 +346,6 @@ public class Main {
                         postController.removerLike(post);
                         post.setLikes(post.getLikes() - 1);
                     }
-                    break;
-
-                case 3:
-                    System.out.print("Comentário: ");
-                    String texto = LER.nextLine();
-                    Comentario c = new Comentario(texto, post.getId(),
-                            perfilController.buscarPorId(usuario.getId()));
-                    comentarioController.comentar(c);
                     break;
 
                 default:

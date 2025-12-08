@@ -37,6 +37,7 @@ public class ComentarioDAO {
                     rs.getInt("perfil_usuario_id");
                     rs.getInt("id");
                 comentarios.add(c);
+                
             }
     
         } catch (SQLException e) {
