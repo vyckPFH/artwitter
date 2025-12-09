@@ -35,14 +35,12 @@ public class PostDAO {
 
         // seguidos.add(usuario);
 
-        // 3) para cada usuário seguido, pegar o perfil e listar os posts desse perfil
         for (int i = 0; i < seguidos.size(); i++) {
             Usuario u = seguidos.get(i);
 
             // busca o perfil correspondente ao usuario
             Perfil perfil = perfilController.buscarPorId(u.getId());
             if (perfil != null) {
-                // usa SEU método existente no PostController
                 ArrayList<Post> posts = this.selectByPerfil(perfil);
 
                 if (posts != null) {

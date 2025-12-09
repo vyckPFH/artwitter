@@ -4,77 +4,66 @@ import java.util.ArrayList;
 
 import br.edu.ifpr.model.dao.ComentarioDAO;
 import br.edu.ifpr.model.utils.Comentario;
+import br.edu.ifpr.model.utils.Perfil;
 import br.edu.ifpr.model.utils.Post;
+import br.edu.ifpr.model.utils.Usuario;
 
-/**
- * Controlador responsável por gerenciar operações relacionadas
- * à entidade {@link Comentario}. Realiza validações básicas e
- * delega operações ao {@link ComentarioDAO}.
- */
 public class ComentarioController {
 
     private ComentarioDAO dao;
+
+    public ComentarioController() {
+        this.dao = new ComentarioDAO();
+    }
 
     public ArrayList<Comentario> listarDePost(Post post) {
         return dao.selectComentariosPorPost(post);
     }
 
-    /**
-     * Construtor que inicializa o controlador com uma instância de
-     * {@link ComentarioDAO}.
-     */
-    public ComentarioController() {
-        this.dao = new ComentarioDAO();
-    }
-
-    /**
-     * Adiciona um novo comentário ao sistema após validar seu conteúdo.
-     *
-     * @param comentario objeto contendo o texto e as informações do comentário
-     */
-    public void comentar(Comentario comentario) {
-        if (comentario.getTexto() == null || comentario.getTexto().isEmpty()) {
-            System.out.println("Comentário não pode ser nulo/vazio");
-            return;
-        }
-
-        dao.insert(comentario);
-    }
-
-    /**
-     * Retorna uma lista contendo todos os comentários cadastrados.
-     *
-     * @return lista de comentários
-     */
-    public ArrayList<Comentario> listarComentarios() {
-        return dao.select();
-    }
-
-    /**
-     * Busca um comentário pelo seu ID.
-     *
-     * @param id identificador do comentário
-     * @return o comentário encontrado ou null caso não exista
-     */
     public Comentario buscarPorId(int id) {
         return dao.selectPorId(id);
     }
 
-    /**
-     * Atualiza os dados de um comentário existente.
-     *
-     * @param comentario objeto contendo os novos valores do comentário
-     */
-    public void atualizarComentario(Comentario comentario) {
-        dao.update(comentario);
+    // Adiciona comentário com validação
+    public boolean comentar(String texto, Post post, Perfil perfilUsuario) {
+        if (texto == null || texto.isBlank()) {
+            System.out.println("Comentário vazio, operação cancelada.");
+            return false;
+        }
+        Comentario c = new Comentario(texto, post.getId(), perfilUsuario);
+        dao.insert(c);
+        System.out.println("Comentário publicado!");
+        return true;
     }
 
-    /**
-     * Remove um comentário do sistema com base no seu ID.
-     *
-     * @param comentario identificador do comentário a ser removido
-     */
-    public void deletarComentario(Comentario comentario) {
+    // Edita comentário com validação de dono
+    public boolean editarComentario(int comentarioId, Usuario usuario, String novoTexto) {
+        Comentario comentario = buscarPorId(comentarioId);
+        if (comentario == null || comentario.getComentOwner() == null
+            || comentario.getComentOwner().getPerfilOwner().getId() != usuario.getId()) {
+            System.out.println("Comentário inválido ou você não tem permissão.");
+            return false;
+        }
+        if (novoTexto == null || novoTexto.isBlank()) {
+            System.out.println("Novo texto vazio, operação cancelada.");
+            return false;
+        }
+        comentario.setTexto(novoTexto);
+        dao.update(comentario);
+        System.out.println("Comentário atualizado!");
+        return true;
+    }
+
+    // Deleta comentário com validação de dono
+    public boolean deletarComentario(int comentarioId, Usuario usuario) {
+        Comentario comentario = buscarPorId(comentarioId);
+        if (comentario == null || comentario.getComentOwner() == null
+            || comentario.getComentOwner().getPerfilOwner().getId() != usuario.getId()) {
+            System.out.println("Comentário inválido ou você não tem permissão.");
+            return false;
+        }
         dao.delete(comentario);
+        System.out.println("Comentário deletado!");
+        return true;
     }
 }

@@ -32,12 +32,19 @@ public class ComentarioDAO {
     
             while (rs.next()) {
                 Comentario c = new Comentario();
-                    rs.getString("texto");
-                    rs.getInt("post_idPost");
-                    rs.getInt("perfil_usuario_id");
-                    rs.getInt("id");
+    
+                c.setId(rs.getInt("id"));
+                c.setTexto(rs.getString("texto"));
+                c.setIdPost(rs.getInt("post_idPost"));
+    
+                int perfilId = rs.getInt("perfil_usuario_id");
+                if (perfilId > 0) {
+                    c.setComentOwner(perfilDAO.selectPorId(perfilId));
+                } else {
+                    c.setComentOwner(null); 
+                }
+    
                 comentarios.add(c);
-                
             }
     
         } catch (SQLException e) {
@@ -46,6 +53,7 @@ public class ComentarioDAO {
     
         return comentarios;
     }
+    
     
 
     /**
